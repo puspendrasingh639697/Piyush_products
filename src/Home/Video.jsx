@@ -1,8 +1,4 @@
 import React, { useState } from "react";
-import ProductModals from "../Component/ProductModals";
-import { Link } from "react-router-dom";
-
-// IMAGES
 import side1 from "../assets/Images/side11.jpeg";
 import side2 from "../assets/Images/side1.jpeg";
 import side30 from "../assets/Images/side30.jpeg";
@@ -10,9 +6,9 @@ import side5 from "../assets/Images/side5.jpeg";
 import side6 from "../assets/Images/side6.jpeg";
 import side7 from "../assets/Images/side7.jpeg";
 import side9 from "../assets/Images/side9.jpeg";
-import side11 from "../assets/Images/side11.jpeg";
+import side11 from "../assets/Images/side34.jpeg";
 
-const Video = ({ card, setCard }) => {
+const Video = () => {
   const [category, setCategory] = useState([]);
   const [show, setShow] = useState(false);
 
@@ -53,9 +49,7 @@ const Video = ({ card, setCard }) => {
               key={index}
               onClick={() => addModals(item)}
               className="group cursor-pointer bg-white  overflow-hidden 
-transition-all duration-300 
-
-hover:bg-[#f4c58f]"
+transition-all duration-300"
             >
 
               {/* IMAGE */}
@@ -84,25 +78,9 @@ hover:bg-[#f4c58f]"
         </div>
       </div>
 
-      {/* MODAL */}
-      {show && (
-        <ProductModals
-          onClose={() => setShow(false)}
-          category={category}
-          card={card}
-          setCard={setCard}
-        />
-      )}
+     
 
-      {/* BUTTON */}
-      <div className="text-center mt-10">
-        <Link
-          to="/categories"
-          className="inline-block px-8 py-3 border border-black text-black text-sm font-semibold tracking-wide hover:bg-black hover:text-white transition-all"
-        >
-          VIEW ALL CATEGORIES
-        </Link>
-      </div>
+      
     </>
   );
 };

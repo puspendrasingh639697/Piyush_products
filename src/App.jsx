@@ -24,6 +24,8 @@ import Payment from './Page/Payment'
 import OrderSumary from './Page/OrderSumary'
 import CategoryPage from './OurProduct/CategoryPage'
 import ProductDetail from './OurProduct/ProductDetail'
+import Checkout from './PaymentCard/Checkout'
+import SuccessPage from './PaymentCard/SuccessPage'
 
 const App = () => {
   const [card,setCard] = useState([])
@@ -61,15 +63,13 @@ const App = () => {
         <Route path='/orderSumary' element={<OrderSumary card = {card} setCard = {setCard} formData ={formData} setFormData={setFormData}/>}></Route>
         <Route path='/payment' element={<Payment card = {card} setCard = {setCard}/>}></Route>
         <Route path='/category/:categoryId' element={<CategoryPage card={card} setCard={setCard} />} />
-        <Route path='/product/:id' element={<ProductDetail card={card} setCard={setCard}/>} />
+        <Route path='/product/:productId' element={<ProductDetail card={card} setCard={setCard}/>} />
+        <Route path="/checkout" element={<Checkout />} />
+        <Route path="/success" element={<SuccessPage />} />
 
       </Routes>
       <Footer2/>
-      {/* <Footer/> */}
-     
-      {/* <Footer3/>
-      <Footer4/> */}
-      {/* <Footer5/> */} 
+      
     </Router>
   )
 }

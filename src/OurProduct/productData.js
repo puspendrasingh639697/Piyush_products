@@ -1,40 +1,28 @@
 // src/data/productData.js
 
 // --- ALL IMAGES IMPORTS ---
-import side1 from "../assets/Images/side1.jpeg";
-import side2 from "../assets/Images/side2.jpeg";
-import side3 from "../assets/Images/side3.jpeg";
-import side4 from "../assets/Images/side4.jpeg";
-import side5 from "../assets/Images/side5.jpeg";
-import side6 from "../assets/Images/side6.jpeg";
-import side7 from "../assets/Images/side7.jpeg";
-import side8 from "../assets/Images/side8.jpeg";
-import side9 from "../assets/Images/side9.jpeg";
-import side10 from "../assets/Images/side10.jpeg";
-import side11 from "../assets/Images/side11.jpeg";
-import side12 from "../assets/Images/side12.jpeg";
-import side13 from "../assets/Images/side13.jpeg";
-import side14 from "../assets/Images/side14.jpeg";
-import side15 from "../assets/Images/side15.jpeg";
-import side16 from "../assets/Images/side16.jpeg";
-import side17 from "../assets/Images/side17.jpeg";
-import side18 from "../assets/Images/side18.jpeg";
-import side19 from "../assets/Images/side19.jpeg";
-import side20 from "../assets/Images/side20.jpeg";
-import side24 from "../assets/Images/side24.jpeg";
-import side25 from "../assets/Images/side25.jpeg";
-import side33 from "../assets/Images/side33.jpeg";
-import side35 from "../assets/Images/side35.jpeg";
-import side38 from "../assets/Images/side38.jpeg";
-import side39 from "../assets/Images/side39.jpeg";
-import side40 from "../assets/Images/side40.webp";
-import side41 from "../assets/Images/side41.webp";
+import side1 from "../assets/Images/side1.jpeg";   // Kadhai / Tasra
+import side2 from "../assets/Images/side2.jpeg";   // Hot-Pot
+import side3 from "../assets/Images/side3.jpeg";   // Lunchbox
+import side4 from "../assets/Images/side4.jpeg";   // Aluminum Cooker
+import side5 from "../assets/Images/side5.jpeg";   // Cookware Sets
+import side6 from "../assets/Images/side6.jpeg";   // Copper Items
+import side7 from "../assets/Images/side7.jpeg";   // Bottles
+import side9 from "../assets/Images/side9.jpeg";   // Sauce Pan
+import side10 from "../assets/Images/side10.jpeg"; // Triply Kadhai
+import side12 from "../assets/Images/side12.jpeg"; // Casserole
+import side14 from "../assets/Images/side14.jpeg"; // Steel Cooker
+import side18 from "../assets/Images/side18.jpeg"; // Wok
+import side20 from "../assets/Images/side20.jpeg"; // Bowl
+import side24 from "../assets/Images/side24.jpeg"; // Sipper
+import side25 from "../assets/Images/side25.jpeg"; // Flask
+import side33 from "../assets/Images/side33.jpeg"; // Coffee Mug / Copper Mug
 
 export const allProducts = [
   // --- 1. TRIPLY COOKWARE (7 Items) ---
   { id: 1, category: "triply-cookware", name: "Premium Triply Tasra 2L", price: "1,499", oldPrice: "1,999", img: side1, series: "Tri-Ply Series" },
   { id: 2, category: "triply-cookware", name: "Triply Induction Kadhai", price: "2,100", oldPrice: "2,800", img: side10, series: "Tri-Ply Series" },
-  { id: 3, category: "triply-cookware", name: "Triply Deep Fry Pan", price: "1,850", oldPrice: "2,400", img: side4, series: "Tri-Ply Series" },
+  { id: 3, category: "triply-cookware", name: "Triply Deep Fry Pan", price: "1,850", oldPrice: "2,400", img: side18, series: "Tri-Ply Series" },
   { id: 4, category: "triply-cookware", name: "Professional Triply Wok", price: "2,400", oldPrice: "3,100", img: side18, series: "Tri-Ply Series" },
   { id: 5, category: "triply-cookware", name: "Triply Sauce Pan 1.5L", price: "1,200", oldPrice: "1,600", img: side9, series: "Tri-Ply Series" },
   { id: 6, category: "triply-cookware", name: "Triply Casserole with Lid", price: "2,900", oldPrice: "3,800", img: side12, series: "Tri-Ply Series" },
@@ -44,26 +32,26 @@ export const allProducts = [
   { id: 8, category: "thermoware", name: "Insulated Hot-Pot Small", price: "799", oldPrice: "1,100", img: side2, series: "Classic Series" },
   { id: 9, category: "thermoware", name: "Insulated Hot-Pot Medium", price: "999", oldPrice: "1,400", img: side2, series: "Classic Series" },
   { id: 10, category: "thermoware", name: "Premium Serving Casserole", price: "1,250", oldPrice: "1,600", img: side12, series: "Premium Series" },
-  { id: 11, category: "thermoware", name: "Designer Thermoware Set", price: "2,500", oldPrice: "3,200", img: side5, series: "Elite Series" },
+  { id: 11, category: "thermoware", name: "Designer Thermoware Set", price: "2,500", oldPrice: "3,200", img: side2, series: "Elite Series" },
   { id: 12, category: "thermoware", name: "Double Wall Soup Bowl", price: "450", oldPrice: "600", img: side20, series: "Utility" },
   { id: 13, category: "thermoware", name: "Hot-Pot Jumbo 5L", price: "1,800", oldPrice: "2,300", img: side2, series: "Classic Series" },
 
   // --- 3. LUNCHBOX (6 Items) ---
   { id: 14, category: "lunchbox", name: "Office Executive Box", price: "899", oldPrice: "1,200", img: side3, series: "Lifestyle" },
-  { id: 15, category: "lunchbox", name: "Kids School Tiffin", price: "450", oldPrice: "650", img: side7, series: "Daily Needs" },
+  { id: 15, category: "lunchbox", name: "Kids School Tiffin", price: "450", oldPrice: "650", img: side3, series: "Daily Needs" },
   { id: 16, category: "lunchbox", name: "Stainless Steel 3-Tier", price: "750", oldPrice: "999", img: side3, series: "Classic" },
   { id: 17, category: "lunchbox", name: "Electric Heating Lunchbox", price: "1,400", oldPrice: "1,900", img: side3, series: "Smart Series" },
-  { id: 18, category: "lunchbox", name: "Compact Lunch Bag Set", price: "600", oldPrice: "850", img: side7, series: "Daily Needs" },
+  { id: 18, category: "lunchbox", name: "Compact Lunch Bag Set", price: "600", oldPrice: "850", img: side3, series: "Daily Needs" },
   { id: 19, category: "lunchbox", name: "Insulated Meal Box", price: "1,100", oldPrice: "1,500", img: side3, series: "Premium" },
 
   // --- 4. COOKERS (7 Items) ---
   { id: 20, category: "cookers", name: "Aluminum Pressure Cooker 3L", price: "1,600", oldPrice: "2,100", img: side4, series: "Aluminum Series" },
   { id: 21, category: "cookers", name: "Steel Pressure Cooker 5L", price: "2,899", oldPrice: "3,500", img: side14, series: "Steel Series" },
-  { id: 22, category: "cookers", name: "Triply Pressure Cooker 3.5L", price: "3,500", oldPrice: "4,200", img: side1, series: "Tri-Ply Series" },
+  { id: 22, category: "cookers", name: "Triply Pressure Cooker 3.5L", price: "3,500", oldPrice: "4,200", img: side14, series: "Tri-Ply Series" },
   { id: 23, category: "cookers", name: "Hard Anodized Cooker", price: "2,200", oldPrice: "2,900", img: side4, series: "Aluminum Series" },
   { id: 24, category: "cookers", name: "Induction Base Cooker", price: "1,950", oldPrice: "2,500", img: side14, series: "Steel Series" },
   { id: 25, category: "cookers", name: "Inner Lid Cooker Small", price: "1,400", oldPrice: "1,800", img: side4, series: "Classic" },
-  { id: 26, category: "cookers", name: "Combo Cooker Pack", price: "4,000", oldPrice: "5,200", img: side5, series: "Combo Pack" },
+  { id: 26, category: "cookers", name: "Combo Cooker Pack", price: "4,000", oldPrice: "5,200", img: side14, series: "Combo Pack" },
 
   // --- 5. STEEL BOTTLES (6 Items) ---
   { id: 27, category: "steel-bottles", name: "Fridge Bottle 1L", price: "350", oldPrice: "500", img: side7, series: "Hydro Series" },

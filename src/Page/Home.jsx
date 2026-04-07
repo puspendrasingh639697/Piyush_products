@@ -16,7 +16,7 @@ const Home = ({ card, setCard }) => {
     <div className="flex flex-col m-0 p-0 w-full"> {/* Added layout classes */}
       <ServiceHero />
       <This_Season />
-      <Video />
+      {/* <Video /> */}
       <Our_Product card={card} setCard={setCard} />
       <MyOurTeam />
       <Get_Glowing />
