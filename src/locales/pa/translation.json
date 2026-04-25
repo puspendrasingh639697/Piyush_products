@@ -1,0 +1,87 @@
+{
+  "nav": {
+    "home": "ਹੋਮ",
+    "cookware": "ਕੁਕਵੇਅਰ",
+    "serveware": "ਸਰਵਵੇਅਰ",
+    "essentials": "ਰਸੋਈ ਦੀਆਂ ਜ਼ਰੂਰੀ ਚੀਜ਼ਾਂ",
+    "deals": "ਡੀਲਜ਼",
+    "gifting": "ਕਾਰਪੋਰੇਟ ਗਿਫਟਿੰਗ",
+    "wishlist": "ਵਿਸ਼ਲਿਸਟ",
+    "cart": "ਕਾਰਟ",
+    "signin": "ਸਾਈਨ ਇਨ",
+    "logout": "ਲੌਗਆਉਟ",
+    "profile": "ਮੇਰੀ ਪ੍ਰੋਫਾਈਲ",
+    "admin": "ਐਡਮਿਨ ਪੈਨਲ"
+  },
+  "common": {
+    "search": "ਉਤਪਾਦ ਖੋਜੋ...",
+    "addToCart": "ਸ਼ਾਮਲ ਕਰੋ",
+    "buyNow": "ਹੁਣੇ ਖਰੀਦੋ",
+    "outOfStock": "ਸਟੋਕ ਖਤਮ",
+    "lowStock": "ਸਿਰਫ {{stock}} ਬਾਕੀ!",
+    "price": "ਕੀਮਤ",
+    "quantity": "ਮਾਤਰਾ",
+    "total": "ਕੁੱਲ",
+    "checkout": "ਚੈੱਕਆਉਟ",
+    "placeOrder": "ਆਰਡਰ ਕਰੋ",
+    "continueShopping": "ਖਰੀਦਾਰੀ ਜਾਰੀ ਰੱਖੋ",
+    "loading": "ਲੋਡ ਹੋ ਰਿਹਾ ਹੈ...",
+    "noProducts": "ਕੋਈ ਉਤਪਾਦ ਨਹੀਂ ਮਿਲਿਆ",
+    "clearFilters": "ਸਾਰੇ ਫਿਲਟਰ ਸਾਫ਼ ਕਰੋ"
+  },
+  "product": {
+    "ourProducts": "ਸਾਡੇ ਉਤਪਾਦ",
+    "description": "ਵੇਰਵਾ",
+    "reviews": "ਗਾਹਕ ਸਮੀਖਿਆਵਾਂ",
+    "writeReview": "ਸਮੀਖਿਆ ਲਿਖੋ",
+    "rating": "ਤੁਹਾਡੀ ਰੇਟਿੰਗ",
+    "yourReview": "ਤੁਹਾਡੀ ਸਮੀਖਿਆ",
+    "submitReview": "ਸਮੀਖਿਆ ਜਮ੍ਹਾਂ ਕਰੋ",
+    "relatedProducts": "ਸੰਬੰਧਿਤ ਉਤਪਾਦ",
+    "addToBag": "ਬੈਗ ਵਿੱਚ ਪਾਓ"
+  },
+  "cart": {
+    "title": "ਸ਼ਾਪਿੰਗ ਕਾਰਟ",
+    "empty": "ਤੁਹਾਡੀ ਕਾਰਟ ਖਾਲੀ ਹੈ",
+    "subtotal": "ਉਪ-ਕੁੱਲ",
+    "shipping": "ਸ਼ਿਪਿੰਗ",
+    "free": "ਮੁਫਤ",
+    "proceed": "ਚੈੱਕਆਉਟ 'ਤੇ ਜਾਓ",
+    "remove": "ਹਟਾਓ"
+  },
+  "checkout": {
+    "title": "ਚੈੱਕਆਉਟ",
+    "shippingAddress": "ਸ਼ਿਪਿੰਗ ਪਤਾ",
+    "addNewAddress": "ਨਵਾਂ ਪਤਾ ਜੋੜੋ",
+    "paymentMethod": "ਭੁਗਤਾਨ ਢੰਗ",
+    "orderSummary": "ਆਰਡਰ ਸਾਰਾਂਸ਼",
+    "placeOrder": "ਆਰਡਰ ਕਰੋ",
+    "applyCoupon": "ਲਾਗੂ ਕਰੋ",
+    "couponCode": "ਕੂਪਨ ਕੋਡ"
+  },
+  "profile": {
+    "myAccount": "ਮੇਰਾ ਖਾਤਾ",
+    "profileInfo": "ਪ੍ਰੋਫਾਈਲ ਜਾਣਕਾਰੀ",
+    "orders": "ਮੇਰੇ ਆਰਡਰ",
+    "addresses": "ਸੁਰੱਖਿਅਤ ਪਤੇ",
+    "editProfile": "ਪ੍ਰੋਫਾਈਲ ਸੰਪਾਦਿਤ ਕਰੋ",
+    "saveChanges": "ਤਬਦੀਲੀਆਂ ਸੁਰੱਖਿਅਤ ਕਰੋ",
+    "cancel": "ਰੱਦ ਕਰੋ",
+    "fullName": "ਪੂਰਾ ਨਾਮ",
+    "email": "ਈਮੇਲ ਪਤਾ",
+    "phone": "ਫੋਨ ਨੰਬਰ",
+    "memberSince": "ਮੈਂਬਰ ਤੋਂ"
+  },
+  "order": {
+    "orderId": "ਆਰਡਰ ID",
+    "orderDate": "ਆਰਡਰ ਮਿਤੀ",
+    "status": "ਸਥਿਤੀ",
+    "payment": "ਭੁਗਤਾਨ",
+    "paid": "ਭੁਗਤਾਨ ਕੀਤਾ",
+    "pending": "ਬਾਕੀ",
+    "processing": "ਪ੍ਰੋਸੈਸਿੰਗ",
+    "shipped": "ਭੇਜਿਆ ਗਿਆ",
+    "delivered": "ਡਿਲੀਵਰ ਕੀਤਾ",
+    "cancelled": "ਰੱਦ ਕੀਤਾ"
+  }
+}

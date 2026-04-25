@@ -10,6 +10,7 @@ import In_The_Spotlite from "../Home/In_The_Spotlite"
 import HeroSection from "../OurProduct/HeroSection";
 import PartnerTheShin from "../Home/PartnerTheShin"
 import ServiceHero from "../Home/SliderImage";
+import ProductList from "../Component/ProductList";
 
 const Home = ({ card, setCard }) => {
   return (
@@ -17,7 +18,8 @@ const Home = ({ card, setCard }) => {
       <ServiceHero />
       <This_Season />
       {/* <Video /> */}
-      <Our_Product card={card} setCard={setCard} />
+      {/* <Our_Product card={card} setCard={setCard} /> */}
+      <ProductList/>
       <MyOurTeam />
       <Get_Glowing />
       <TeamMembers />

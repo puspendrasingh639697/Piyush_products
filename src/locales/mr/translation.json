@@ -1,0 +1,87 @@
+{
+  "nav": {
+    "home": "होम",
+    "cookware": "कुकवेअर",
+    "serveware": "सर्ववेअर",
+    "essentials": "स्वयंपाकघरातील आवश्यक वस्तू",
+    "deals": "ऑफर",
+    "gifting": "कॉर्पोरेट गिफ्टिंग",
+    "wishlist": "विशलिस्ट",
+    "cart": "कार्ट",
+    "signin": "साइन इन",
+    "logout": "लॉगआउट",
+    "profile": "माझी प्रोफाइल",
+    "admin": "प्रशासक पॅनेल"
+  },
+  "common": {
+    "search": "उत्पादने शोधा...",
+    "addToCart": "जोडा",
+    "buyNow": "आत्ता खरेदी करा",
+    "outOfStock": "स्टॉक संपला",
+    "lowStock": "फक्त {{stock}} उरले!",
+    "price": "किंमत",
+    "quantity": "प्रमाण",
+    "total": "एकूण",
+    "checkout": "चेकआउट",
+    "placeOrder": "ऑर्डर करा",
+    "continueShopping": "खरेदी सुरू ठेवा",
+    "loading": "लोड होत आहे...",
+    "noProducts": "कोणतेही उत्पादन सापडले नाही",
+    "clearFilters": "सर्व फिल्टर साफ करा"
+  },
+  "product": {
+    "ourProducts": "आमची उत्पादने",
+    "description": "वर्णन",
+    "reviews": "ग्राहक पुनरावलोकने",
+    "writeReview": "पुनरावलोकन लिहा",
+    "rating": "तुमचे रेटिंग",
+    "yourReview": "तुमचे पुनरावलोकन",
+    "submitReview": "पुनरावलोकन सबमिट करा",
+    "relatedProducts": "संबंधित उत्पादने",
+    "addToBag": "बॅगमध्ये जोडा"
+  },
+  "cart": {
+    "title": "शॉपिंग कार्ट",
+    "empty": "तुमची कार्ट रिकामी आहे",
+    "subtotal": "उप-एकूण",
+    "shipping": "शिपिंग",
+    "free": "मोफत",
+    "proceed": "चेकआउटकडे जा",
+    "remove": "काढा"
+  },
+  "checkout": {
+    "title": "चेकआउट",
+    "shippingAddress": "शिपिंग पत्ता",
+    "addNewAddress": "नवीन पत्ता जोडा",
+    "paymentMethod": "पेमेंट पद्धत",
+    "orderSummary": "ऑर्डर सारांश",
+    "placeOrder": "ऑर्डर करा",
+    "applyCoupon": "लागू करा",
+    "couponCode": "कूपन कोड"
+  },
+  "profile": {
+    "myAccount": "माझे खाते",
+    "profileInfo": "प्रोफाइल माहिती",
+    "orders": "माझे ऑर्डर",
+    "addresses": "जतन केलेले पत्ते",
+    "editProfile": "प्रोफाइल संपादित करा",
+    "saveChanges": "बदल जतन करा",
+    "cancel": "रद्द करा",
+    "fullName": "पूर्ण नाव",
+    "email": "ईमेल पत्ता",
+    "phone": "फोन नंबर",
+    "memberSince": "सदस्यता पासून"
+  },
+  "order": {
+    "orderId": "ऑर्डर ID",
+    "orderDate": "ऑर्डर तारीख",
+    "status": "स्थिती",
+    "payment": "पेमेंट",
+    "paid": "पेमेंट झाले",
+    "pending": "प्रलंबित",
+    "processing": "प्रक्रिया करत आहे",
+    "shipped": "पाठवले",
+    "delivered": "वितरित",
+    "cancelled": "रद्द"
+  }
+}

@@ -1,0 +1,101 @@
+{
+  "nav": {
+    "home": "HOME",
+    "cookware": "COOKWARE",
+    "serveware": "SERVEWARE",
+    "essentials": "KITCHEN ESSENTIALS",
+    "deals": "DEALS",
+    "gifting": "CORPORATE GIFTING",
+    "wishlist": "Wishlist",
+    "cart": "Cart",
+    "signin": "Sign In",
+    "logout": "Logout",
+    "profile": "My Profile",
+    "admin": "Admin Panel"
+  },
+  "common": {
+    "search": "Search products...",
+    "addToCart": "ADD",
+    "buyNow": "BUY",
+    "outOfStock": "OUT OF STOCK",
+    "lowStock": "Only {{stock}} left!",
+    "price": "Price",
+    "quantity": "Quantity",
+    "total": "Total",
+    "checkout": "Checkout",
+    "placeOrder": "Place Order",
+    "continueShopping": "Continue Shopping",
+    "loading": "Loading...",
+    "noProducts": "No products found",
+    "clearFilters": "Clear all filters"
+  },
+  "product": {
+    "ourProducts": "OUR PRODUCTS",
+    "description": "Description",
+    "reviews": "Customer Reviews",
+    "writeReview": "Write a Review",
+    "rating": "Your Rating",
+    "yourReview": "Your Review",
+    "submitReview": "Submit Review",
+    "relatedProducts": "Related Products",
+    "addToBag": "Add To Shopping Bag"
+  },
+  "cart": {
+    "title": "Shopping Cart",
+    "empty": "Your Cart is Empty",
+    "subtotal": "Subtotal",
+    "shipping": "Shipping",
+    "free": "Free",
+    "proceed": "Proceed to Checkout",
+    "remove": "Remove",
+    "update": "Update"
+  },
+  "checkout": {
+    "title": "Checkout",
+    "shippingAddress": "Shipping Address",
+    "addNewAddress": "Add New Address",
+    "paymentMethod": "Payment Method",
+    "orderSummary": "Order Summary",
+    "placeOrder": "Place Order",
+    "applyCoupon": "Apply",
+    "couponCode": "Coupon code"
+  },
+  "profile": {
+    "myAccount": "My Account",
+    "profileInfo": "Profile Information",
+    "orders": "My Orders",
+    "addresses": "Saved Addresses",
+    "editProfile": "Edit Profile",
+    "saveChanges": "Save Changes",
+    "cancel": "Cancel",
+    "fullName": "Full Name",
+    "email": "Email Address",
+    "phone": "Phone Number",
+    "memberSince": "Member since"
+  },
+  "admin": {
+    "dashboard": "Admin Dashboard",
+    "totalProducts": "Total Products",
+    "totalUsers": "Total Users",
+    "totalOrders": "Total Orders",
+    "totalRevenue": "Total Revenue",
+    "addProduct": "Add Product",
+    "editProduct": "Edit Product",
+    "deleteProduct": "Delete Product",
+    "manageContent": "Manage Content"
+  },
+  "order": {
+    "orderId": "Order ID",
+    "orderDate": "Order Date",
+    "status": "Status",
+    "payment": "Payment",
+    "paid": "Paid",
+    "pending": "Pending",
+    "processing": "Processing",
+    "shipped": "Shipped",
+    "delivered": "Delivered",
+    "cancelled": "Cancelled",
+    "trackOrder": "Track Order",
+    "cancelOrder": "Cancel Order"
+  }
+}

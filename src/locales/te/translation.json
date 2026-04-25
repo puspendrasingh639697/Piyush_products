@@ -1,0 +1,87 @@
+{
+  "nav": {
+    "home": "హోమ్",
+    "cookware": "కుక్వేర్",
+    "serveware": "సర్వ్వేర్",
+    "essentials": "వంటగది అవసరాలు",
+    "deals": "ఆఫర్లు",
+    "gifting": "కార్పొరేట్ గిఫ్టింగ్",
+    "wishlist": "విష్లిస్ట్",
+    "cart": "కార్ట్",
+    "signin": "సైన్ ఇన్",
+    "logout": "లాగౌట్",
+    "profile": "నా ప్రొఫైల్",
+    "admin": "అడ్మిన్ ప్యానెల్"
+  },
+  "common": {
+    "search": "ఉత్పత్తులను శోధించండి...",
+    "addToCart": "జోడించు",
+    "buyNow": "ఇప్పుడే కొనుగోలు చేయండి",
+    "outOfStock": "స్టాక్ అయిపోయింది",
+    "lowStock": "కేవలం {{stock}} మాత్రమే మిగిలాయి!",
+    "price": "ధర",
+    "quantity": "పరిమాణం",
+    "total": "మొత్తం",
+    "checkout": "చెక్అవుట్",
+    "placeOrder": "ఆర్డర్ చేయండి",
+    "continueShopping": "షాపింగ్ కొనసాగించండి",
+    "loading": "లోడ్ అవుతుంది...",
+    "noProducts": "ఉత్పత్తులు ఏవీ కనుగొనబడలేదు",
+    "clearFilters": "అన్ని ఫిల్టర్లను క్లియర్ చేయండి"
+  },
+  "product": {
+    "ourProducts": "మా ఉత్పత్తులు",
+    "description": "వివరణ",
+    "reviews": "కస్టమర్ సమీక్షలు",
+    "writeReview": "సమీక్ష రాయండి",
+    "rating": "మీ రేటింగ్",
+    "yourReview": "మీ సమీక్ష",
+    "submitReview": "సమీక్షను సమర్పించండి",
+    "relatedProducts": "సంబంధిత ఉత్పత్తులు",
+    "addToBag": "బ్యాగ్లో జోడించండి"
+  },
+  "cart": {
+    "title": "షాపింగ్ కార్ట్",
+    "empty": "మీ కార్ట్ ఖాళీగా ఉంది",
+    "subtotal": "సబ్టోటల్",
+    "shipping": "షిప్పింగ్",
+    "free": "ఉచితం",
+    "proceed": "చెక్అవుట్కు వెళ్లండి",
+    "remove": "తొలగించు"
+  },
+  "checkout": {
+    "title": "చెక్అవుట్",
+    "shippingAddress": "షిప్పింగ్ చిరునామా",
+    "addNewAddress": "కొత్త చిరునామా జోడించండి",
+    "paymentMethod": "చెల్లింపు పద్ధతి",
+    "orderSummary": "ఆర్డర్ సారాంశం",
+    "placeOrder": "ఆర్డర్ చేయండి",
+    "applyCoupon": "వర్తించు",
+    "couponCode": "కూపన్ కోడ్"
+  },
+  "profile": {
+    "myAccount": "నా ఖాతా",
+    "profileInfo": "ప్రొఫైల్ సమాచారం",
+    "orders": "నా ఆర్డర్లు",
+    "addresses": "సేవ్ చేసిన చిరునామాలు",
+    "editProfile": "ప్రొఫైల్ సవరించండి",
+    "saveChanges": "మార్పులను సేవ్ చేయండి",
+    "cancel": "రద్దు చేయండి",
+    "fullName": "పూర్తి పేరు",
+    "email": "ఈమెయిల్ చిరునామా",
+    "phone": "ఫోన్ నంబర్",
+    "memberSince": "సభ్యత్వం నుండి"
+  },
+  "order": {
+    "orderId": "ఆర్డర్ ID",
+    "orderDate": "ఆర్డర్ తేదీ",
+    "status": "స్థితి",
+    "payment": "చెల్లింపు",
+    "paid": "చెల్లించబడింది",
+    "pending": "పెండింగ్",
+    "processing": "ప్రాసెసింగ్",
+    "shipped": "పంపించబడింది",
+    "delivered": "డెలివరీ చేయబడింది",
+    "cancelled": "రద్దు చేయబడింది"
+  }
+}

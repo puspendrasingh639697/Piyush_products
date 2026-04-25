@@ -1,0 +1,101 @@
+{
+  "nav": {
+    "home": "होम",
+    "cookware": "कुकवेयर",
+    "serveware": "सर्ववेयर",
+    "essentials": "रसोई आवश्यक सामग्री",
+    "deals": "ऑफ़र",
+    "gifting": "कॉर्पोरेट गिफ्टिंग",
+    "wishlist": "विशलिस्ट",
+    "cart": "कार्ट",
+    "signin": "साइन इन",
+    "logout": "लॉगआउट",
+    "profile": "मेरी प्रोफाइल",
+    "admin": "एडमिन पैनल"
+  },
+  "common": {
+    "search": "उत्पाद खोजें...",
+    "addToCart": "जोड़ें",
+    "buyNow": "अभी खरीदें",
+    "outOfStock": "स्टॉक खत्म",
+    "lowStock": "केवल {{stock}} बचे!",
+    "price": "कीमत",
+    "quantity": "मात्रा",
+    "total": "कुल",
+    "checkout": "चेकआउट",
+    "placeOrder": "ऑर्डर करें",
+    "continueShopping": "शॉपिंग जारी रखें",
+    "loading": "लोड हो रहा है...",
+    "noProducts": "कोई उत्पाद नहीं मिला",
+    "clearFilters": "सभी फ़िल्टर हटाएं"
+  },
+  "product": {
+    "ourProducts": "हमारे उत्पाद",
+    "description": "विवरण",
+    "reviews": "ग्राहक समीक्षाएं",
+    "writeReview": "समीक्षा लिखें",
+    "rating": "आपकी रेटिंग",
+    "yourReview": "आपकी समीक्षा",
+    "submitReview": "समीक्षा सबमिट करें",
+    "relatedProducts": "समान उत्पाद",
+    "addToBag": "बैग में जोड़ें"
+  },
+  "cart": {
+    "title": "शॉपिंग कार्ट",
+    "empty": "आपकी कार्ट खाली है",
+    "subtotal": "उप-योग",
+    "shipping": "शिपिंग",
+    "free": "मुफ्त",
+    "proceed": "चेकआउट पर जाएं",
+    "remove": "हटाएं",
+    "update": "अपडेट करें"
+  },
+  "checkout": {
+    "title": "चेकआउट",
+    "shippingAddress": "शिपिंग पता",
+    "addNewAddress": "नया पता जोड़ें",
+    "paymentMethod": "भुगतान विधि",
+    "orderSummary": "ऑर्डर सारांश",
+    "placeOrder": "ऑर्डर करें",
+    "applyCoupon": "लागू करें",
+    "couponCode": "कूपन कोड"
+  },
+  "profile": {
+    "myAccount": "मेरा खाता",
+    "profileInfo": "प्रोफाइल जानकारी",
+    "orders": "मेरे ऑर्डर",
+    "addresses": "सहेजे गए पते",
+    "editProfile": "प्रोफाइल संपादित करें",
+    "saveChanges": "सहेजें",
+    "cancel": "रद्द करें",
+    "fullName": "पूरा नाम",
+    "email": "ईमेल पता",
+    "phone": "फोन नंबर",
+    "memberSince": "सदस्यता से"
+  },
+  "admin": {
+    "dashboard": "एडमिन डैशबोर्ड",
+    "totalProducts": "कुल उत्पाद",
+    "totalUsers": "कुल उपयोगकर्ता",
+    "totalOrders": "कुल ऑर्डर",
+    "totalRevenue": "कुल राजस्व",
+    "addProduct": "उत्पाद जोड़ें",
+    "editProduct": "उत्पाद संपादित करें",
+    "deleteProduct": "उत्पाद हटाएं",
+    "manageContent": "सामग्री प्रबंधित करें"
+  },
+  "order": {
+    "orderId": "ऑर्डर आईडी",
+    "orderDate": "ऑर्डर तिथि",
+    "status": "स्थिति",
+    "payment": "भुगतान",
+    "paid": "भुगतान किया",
+    "pending": "लंबित",
+    "processing": "प्रोसेसिंग",
+    "shipped": "शिप किया गया",
+    "delivered": "डिलीवर किया गया",
+    "cancelled": "रद्द किया गया",
+    "trackOrder": "ऑर्डर ट्रैक करें",
+    "cancelOrder": "ऑर्डर रद्द करें"
+  }
+}

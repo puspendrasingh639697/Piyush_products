@@ -14,13 +14,15 @@ import side30 from "../assets/Images/side30.jpeg";
 import side32 from "../assets/Images/side32.jpeg";
 import side37 from "../assets/Images/side37.jpeg";
 import side39 from "../assets/Images/side39.jpeg";
+import side2 from "../assets/Images/side2.jpeg"; // Added for thermoware
+import side3 from "../assets/Images/side3.jpeg"; // Added for lunchbox
 
 export const categoryList = [
   { id: "triply-cookware", name: "Triply Cookware", img: side },
   { id: "cookers", name: "Cookers", img: side4 },
   { id: "cookware-sets", name: "Cookware Sets", img: side5 },
   { id: "sauce-pans", name: "Sauce Pans", img: side9 },
-  { id: "kadhai", name: "Kadhai", img: side10 }, // <--- Ye ID check karo
+  { id: "kadhai", name: "Kadhai", img: side10 },
   { id: "casseroles", name: "Casseroles", img: side12 },
   { id: "tadka-pan", name: "Tadka Pan", img: side13 },
   { id: "pressure-cooker", name: "Pressure Cooker", img: side14 },
@@ -32,4 +34,10 @@ export const categoryList = [
   { id: "plates-platters", name: "Plates & Platters", img: side32 },
   { id: "idli-maker", name: "Idli Maker", img: side37 },
   { id: "electric-kettle", name: "Electric Kettle", img: side39 },
+  // ✅ Ye dono missing thay, ab add kar diye hain
+  { id: "thermoware", name: "Thermoware", img: side2 }, 
+  { id: "lunchbox", name: "Lunchbox", img: side3 },
+  { id: "aluminum-cooker", name: "Aluminum Cooker", img: side4 },
+  { id: "steel-cooker", name: "Steel Cooker", img: side14 },
+  { id: "triply-cooker", name: "Triply Cooker", img: side14 },
 ];

@@ -1,544 +1,1813 @@
+// import React, { useState, useEffect } from 'react'
+// import { useNavigate } from 'react-router-dom'
+// import { CgProfile } from "react-icons/cg";
+// import { SiShopify } from "react-icons/si";
+// import { FaHeart, FaHome, FaEdit, FaSave, FaPlus, FaTrash, FaCheck, FaEye, FaRupeeSign, FaBox } from "react-icons/fa";
+// import { FaCcAmazonPay } from "react-icons/fa6";
+// import { AiFillSecurityScan } from "react-icons/ai";
+// import { IoSettings, IoLogOutSharp } from "react-icons/io5";
+// import { MdCancel, MdDeliveryDining } from "react-icons/md";
+// import API from "../utils/api";
+
+// const Profile = () => {
+//     const navigate = useNavigate()
+//     const [show, setShow] = useState(1)
+//     const [isEditing, setIsEditing] = useState(false);
+//     const [activeTab, setActiveTab] = useState(1)
+//     const [isLoading, setIsLoading] = useState(true)
+//     const [error, setError] = useState(null)
+    
+//     // Address States
+//     const [addresses, setAddresses] = useState([])
+//     const [showAddressForm, setShowAddressForm] = useState(false)
+//     const [editingAddress, setEditingAddress] = useState(null)
+//     const [addressForm, setAddressForm] = useState({
+//         street: "",
+//         city: "",
+//         state: "",
+//         zipCode: "",
+//         isDefault: false
+//     })
+    
+//     // Orders State
+//     const [orders, setOrders] = useState([])
+//     const [selectedOrder, setSelectedOrder] = useState(null)
+//     const [showOrderModal, setShowOrderModal] = useState(false)
+    
+//     const [userProfile, setUserProfile] = useState({
+//         _id: "",
+//         name: "",
+//         email: "",
+//         wishlist: [],
+//         createdAt: ""
+//     })
+    
+//     const [tempProfile, setTempProfile] = useState({})
+
+//     // ✅ Get status badge color and icon
+// const getStatusBadge = (status, isCancelled) => {
+//   if (isCancelled) {
+//     return { color: 'bg-red-100 text-red-800', icon: '❌', text: 'Cancelled' };
+//   }
+//   switch(status) {
+//     case 'Delivered':
+//       return { color: 'bg-green-100 text-green-800', icon: '✅', text: 'Delivered' };
+//     case 'Shipped':
+//       return { color: 'bg-blue-100 text-blue-800', icon: '🚚', text: 'Shipped' };
+//     case 'Processing':
+//       return { color: 'bg-yellow-100 text-yellow-800', icon: '⏳', text: 'Processing' };
+//     default:
+//       return { color: 'bg-gray-100 text-gray-800', icon: '📦', text: status || 'Placed' };
+//   }
+// };
+    
+//     useEffect(() => {
+//         fetchUserProfile()
+//         fetchAddresses()
+//         fetchOrders() // Fetch orders on load
+//     }, [])
+    
+//     const fetchUserProfile = async () => {
+//         setIsLoading(true)
+//         setError(null)
+        
+//         try {
+//             const response = await API.get('/user/profile')
+//             setUserProfile(response.data)
+//             setTempProfile(response.data)
+//         } catch (err) {
+//             if (err.response?.status === 401) {
+//                 navigate('/')
+//             } else {
+//                 setError(err.response?.data?.message || "Failed to fetch profile")
+//             }
+//         } finally {
+//             setIsLoading(false)
+//         }
+//     }
+    
+//     // Fetch all orders for the user
+//     const fetchOrders = async () => {
+//         try {
+//             const response = await API.get('/orders/myorders')
+//             if (Array.isArray(response.data)) {
+//                 setOrders(response.data)
+//             } else if (response.data && Array.isArray(response.data.orders)) {
+//                 setOrders(response.data.orders)
+//             } else {
+//                 setOrders([])
+//             }
+//         } catch (err) {
+//             console.error("Failed to fetch orders:", err)
+//             setOrders([])
+//         }
+//     }
+    
+//     // Fetch single order details
+//     const fetchOrderDetails = async (orderId) => {
+//         setIsLoading(true)
+//         try {
+//             const response = await API.get(`/orders/${orderId}`)
+//             setSelectedOrder(response.data)
+//             setShowOrderModal(true)
+//         } catch (err) {
+//             setError(err.response?.data?.message || "Failed to fetch order details")
+//         } finally {
+//             setIsLoading(false)
+//         }
+//     }
+    
+//     // Place new order (call this when user clicks checkout)
+//     const placeOrder = async (orderData) => {
+//         setIsLoading(true)
+//         try {
+//             const response = await API.post('/orders/place', orderData)
+//             if (response.data.order) {
+//                 // Refresh orders list
+//                 await fetchOrders()
+//                 return { success: true, order: response.data.order }
+//             }
+//         } catch (err) {
+//             setError(err.response?.data?.message || "Failed to place order")
+//             return { success: false, error: err.response?.data?.message }
+//         } finally {
+//             setIsLoading(false)
+//         }
+//     }
+    
+//     // Get status badge color
+//     const getStatusColor = (status) => {
+//         switch(status) {
+//             case 'Delivered': return 'bg-green-100 text-green-800'
+//             case 'Processing': return 'bg-yellow-100 text-yellow-800'
+//             case 'Shipped': return 'bg-blue-100 text-blue-800'
+//             case 'Cancelled': return 'bg-red-100 text-red-800'
+//             default: return 'bg-gray-100 text-gray-800'
+//         }
+//     }
+    
+//     // Get payment status color
+//     const getPaymentStatusColor = (isPaid) => {
+//         return isPaid ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
+//     }
+    
+//     // Format date
+//     const formatDate = (dateString) => {
+//         if (!dateString) return "N/A"
+//         const date = new Date(dateString)
+//         return date.toLocaleDateString('en-US', { 
+//             year: 'numeric', 
+//             month: 'short', 
+//             day: 'numeric',
+//             hour: '2-digit',
+//             minute: '2-digit'
+//         })
+//     }
+    
+//     // Address functions (same as before)
+//     const fetchAddresses = async () => {
+//         try {
+//             const response = await API.get('/user/address')
+//             if (Array.isArray(response.data)) {
+//                 setAddresses(response.data)
+//             } else if (response.data && Array.isArray(response.data.addresses)) {
+//                 setAddresses(response.data.addresses)
+//             } else {
+//                 setAddresses([])
+//             }
+//         } catch (err) {
+//             console.error("Failed to fetch addresses:", err)
+//             setAddresses([])
+//         }
+//     }
+    
+//     const handleAddAddress = async (e) => {
+//         e.preventDefault()
+//         setIsLoading(true)
+//         try {
+//             const response = await API.post('/user/address', addressForm)
+//             if (Array.isArray(response.data)) {
+//                 setAddresses(response.data)
+//             } else if (response.data && Array.isArray(response.data.addresses)) {
+//                 setAddresses(response.data.addresses)
+//             } else {
+//                 setAddresses([])
+//             }
+//             setShowAddressForm(false)
+//             setAddressForm({
+//                 street: "",
+//                 city: "",
+//                 state: "",
+//                 zipCode: "",
+//                 isDefault: false
+//             })
+//         } catch (err) {
+//             setError(err.response?.data?.message || "Failed to add address")
+//         } finally {
+//             setIsLoading(false)
+//         }
+//     }
+    
+//     const handleUpdateAddress = async (e) => {
+//         e.preventDefault()
+//         setIsLoading(true)
+//         try {
+//             const response = await API.put(`/user/address/${editingAddress._id}`, addressForm)
+//             if (Array.isArray(response.data)) {
+//                 setAddresses(response.data)
+//             } else if (response.data && Array.isArray(response.data.addresses)) {
+//                 setAddresses(response.data.addresses)
+//             } else {
+//                 setAddresses([])
+//             }
+//             setShowAddressForm(false)
+//             setEditingAddress(null)
+//             setAddressForm({
+//                 street: "",
+//                 city: "",
+//                 state: "",
+//                 zipCode: "",
+//                 isDefault: false
+//             })
+//         } catch (err) {
+//             setError(err.response?.data?.message || "Failed to update address")
+//         } finally {
+//             setIsLoading(false)
+//         }
+//     }
+    
+//     const handleDeleteAddress = async (addressId) => {
+//         if (!window.confirm("Are you sure you want to delete this address?")) return
+        
+//         setIsLoading(true)
+//         try {
+//             const response = await API.delete(`/user/address/${addressId}`)
+//             if (Array.isArray(response.data)) {
+//                 setAddresses(response.data)
+//             } else if (response.data && Array.isArray(response.data.addresses)) {
+//                 setAddresses(response.data.addresses)
+//             } else {
+//                 setAddresses([])
+//             }
+//         } catch (err) {
+//             setError(err.response?.data?.message || "Failed to delete address")
+//         } finally {
+//             setIsLoading(false)
+//         }
+//     }
+    
+//     const handleSetDefault = async (addressId) => {
+//         setIsLoading(true)
+//         try {
+//             const addressToUpdate = addresses.find(addr => addr._id === addressId)
+//             const response = await API.put(`/user/address/${addressId}`, {
+//                 street: addressToUpdate.street,
+//                 city: addressToUpdate.city,
+//                 state: addressToUpdate.state,
+//                 zipCode: addressToUpdate.zipCode,
+//                 isDefault: true
+//             })
+//             if (Array.isArray(response.data)) {
+//                 setAddresses(response.data)
+//             } else if (response.data && Array.isArray(response.data.addresses)) {
+//                 setAddresses(response.data.addresses)
+//             } else {
+//                 setAddresses([])
+//             }
+//         } catch (err) {
+//             setError(err.response?.data?.message || "Failed to set default address")
+//         } finally {
+//             setIsLoading(false)
+//         }
+//     }
+    
+//     const editAddress = (address) => {
+//         setEditingAddress(address)
+//         setAddressForm({
+//             street: address.street,
+//             city: address.city,
+//             state: address.state,
+//             zipCode: address.zipCode,
+//             isDefault: address.isDefault || false
+//         })
+//         setShowAddressForm(true)
+//     }
+    
+//     const handleEditSave = async () => {
+//         if (isEditing) {
+//             setIsLoading(true)
+//             try {
+//                 const response = await API.put('/user/profile', {
+//                     name: tempProfile.name,
+//                     email: tempProfile.email
+//                 })
+//                 setUserProfile(response.data)
+//                 setTempProfile(response.data)
+//             } catch (err) {
+//                 setError(err.response?.data?.message || "Failed to update profile")
+//             } finally {
+//                 setIsLoading(false)
+//             }
+//         }
+//         setIsEditing(!isEditing);
+//     }
+    
+//     const handleCancel = () => {
+//         setTempProfile(userProfile);
+//         setIsEditing(false);
+//     }
+    
+//     const updateProfileField = (field, value) => {
+//         setTempProfile(prev => ({ ...prev, [field]: value }))
+//     }
+    
+//     const handleLogout = () => {
+//         localStorage.removeItem('token')
+//         localStorage.removeItem('user')
+//         navigate('/')
+//     }
+    
+//     const handleNavClick = (id) => {
+//         setShow(id);
+//         setActiveTab(id);
+//         if (id === 2) {
+//             fetchOrders() // Refresh orders when clicking on My Orders tab
+//         }
+//         if (id === 4) {
+//             fetchAddresses()
+//         }
+//     }
+    
+//     if (isLoading && !userProfile.name) {
+//         return (
+//             <div className="min-h-screen flex items-center justify-center bg-gray-50">
+//                 <div className="text-center">
+//                     <div className="w-10 h-10 border-4 border-gray-200 border-t-gray-900 rounded-full animate-spin mx-auto mb-3"></div>
+//                     <p className="text-gray-600">Loading profile...</p>
+//                 </div>
+//             </div>
+//         )
+//     }
+    
+//     if (error) {
+//         return (
+//             <div className="min-h-screen flex items-center justify-center bg-gray-50">
+//                 <div className="text-center max-w-md mx-auto p-6 bg-white rounded-lg shadow">
+//                     <div className="text-red-600 text-5xl mb-3">!</div>
+//                     <h2 className="text-xl font-bold text-gray-900 mb-2">Error</h2>
+//                     <p className="text-gray-600 mb-4">{error}</p>
+//                     <button 
+//                         onClick={() => {
+//                             setError(null)
+//                             fetchUserProfile()
+//                             fetchAddresses()
+//                             fetchOrders()
+//                         }}
+//                         className="px-5 py-2 bg-gray-900 text-white rounded-lg hover:bg-gray-800"
+//                     >
+//                         Try Again
+//                     </button>
+//                 </div>
+//             </div>
+//         )
+//     }
+    
+//     return (
+//         <div className='bg-gray-50 min-h-screen'>
+//             <div className='py-8 px-4 max-w-7xl mx-auto'>
+//                 <h1 className='text-3xl font-bold text-gray-900 mb-8'>
+//                     My Account
+//                 </h1>
+    
+//                 <div className='flex flex-col lg:flex-row gap-8'>
+//                     {/* Sidebar */}
+//                     <div className='lg:w-1/4'>
+//                         <div className='bg-white rounded-xl shadow-sm border border-gray-200 p-6'>
+//                             <div className='flex flex-col items-center text-center pb-6 border-b border-gray-200 mb-6'>
+//                                 <div className='w-24 h-24 rounded-full bg-gradient-to-br from-gray-800 to-gray-900 flex items-center justify-center mb-4'>
+//                                     <CgProfile className="text-white text-5xl" />
+//                                 </div>
+//                                 <h2 className='text-xl font-bold text-gray-900 mb-1'>{userProfile.name}</h2>
+//                                 <p className='text-gray-500 text-sm'>{userProfile.email}</p>
+//                                 <p className='text-gray-400 text-xs mt-2'>Member since {formatDate(userProfile.createdAt)}</p>
+//                             </div>
+    
+//                             <nav className='space-y-1'>
+//                                 {[
+//                                     { id: 1, icon: <CgProfile />, label: "Profile Info" },
+//                                     { id: 2, icon: <SiShopify />, label: "My Orders" },
+//                                     { id: 3, icon: <FaHeart />, label: "Wishlist" },
+//                                     { id: 4, icon: <FaHome />, label: "Address" },
+//                                     { id: 5, icon: <FaCcAmazonPay />, label: "Payment" },
+//                                     { id: 6, icon: <AiFillSecurityScan />, label: "Security" },
+//                                     { id: 7, icon: <IoSettings />, label: "Settings" }
+//                                 ].map((item) => (
+//                                     <button
+//                                         key={item.id}
+//                                         onClick={() => handleNavClick(item.id)}
+//                                         className={`flex items-center w-full p-3 rounded-lg transition-all text-left ${
+//                                             activeTab === item.id 
+//                                             ? 'bg-gray-100 text-gray-900 font-medium' 
+//                                             : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'
+//                                         }`}
+//                                     >
+//                                         <span className='mr-3 text-lg'>{item.icon}</span>
+//                                         <span>{item.label}</span>
+//                                     </button>
+//                                 ))}
+                                
+//                                 <button 
+//                                     onClick={handleLogout}
+//                                     className='flex items-center w-full p-3 rounded-lg text-gray-600 hover:bg-gray-50 hover:text-gray-900 transition-all mt-4'
+//                                 >
+//                                     <span className='mr-3 text-lg'><IoLogOutSharp /></span>
+//                                     <span>Logout</span>
+//                                 </button>
+//                             </nav>
+//                         </div>
+//                     </div>
+    
+//                     {/* Main Content */}
+//                     <div className='lg:w-3/4'>
+//                         {/* Profile Info - Same as before */}
+//                         {show === 1 && (
+//                             <div className='bg-white rounded-xl shadow-sm border border-gray-200 p-6'>
+//                                 <div className='flex justify-between items-center mb-6 pb-4 border-b border-gray-200'>
+//                                     <h2 className='text-2xl font-bold text-gray-900'>Profile Information</h2>
+//                                     <div className='flex gap-3'>
+//                                         {isEditing ? (
+//                                             <>
+//                                                 <button
+//                                                     onClick={handleEditSave}
+//                                                     className='flex items-center gap-2 px-4 py-2 bg-gray-900 text-white rounded-lg hover:bg-gray-800 transition-all text-sm'
+//                                                     disabled={isLoading}
+//                                                 >
+//                                                     <FaSave /> {isLoading ? 'Saving...' : 'Save'}
+//                                                 </button>
+//                                                 <button
+//                                                     onClick={handleCancel}
+//                                                     className='flex items-center gap-2 px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-all text-sm'
+//                                                 >
+//                                                     <MdCancel /> Cancel
+//                                                 </button>
+//                                             </>
+//                                         ) : (
+//                                             <button
+//                                                 onClick={() => setIsEditing(true)}
+//                                                 className='flex items-center gap-2 px-4 py-2 bg-gray-900 text-white rounded-lg hover:bg-gray-800 transition-all text-sm'
+//                                             >
+//                                                 <FaEdit /> Edit Profile
+//                                             </button>
+//                                         )}
+//                                     </div>
+//                                 </div>
+    
+//                                 <div className='space-y-5'>
+//                                     <div>
+//                                         <label className='block text-gray-700 text-sm font-medium mb-2'>Full Name</label>
+//                                         <input
+//                                             type='text'
+//                                             value={isEditing ? tempProfile.name : userProfile.name}
+//                                             onChange={(e) => updateProfileField('name', e.target.value)}
+//                                             disabled={!isEditing}
+//                                             className='w-full p-3 border border-gray-300 rounded-lg bg-gray-50 disabled:bg-gray-100 focus:ring-2 focus:ring-gray-900 outline-none'
+//                                         />
+//                                     </div>
+                                    
+//                                     <div>
+//                                         <label className='block text-gray-700 text-sm font-medium mb-2'>Email Address</label>
+//                                         <input
+//                                             type='email'
+//                                             value={userProfile.email}
+//                                             disabled
+//                                             className='w-full p-3 border border-gray-200 rounded-lg bg-gray-100 text-gray-500 cursor-not-allowed'
+//                                         />
+//                                     </div>
+                                    
+//                                     <div>
+//                                         <label className='block text-gray-700 text-sm font-medium mb-2'>Wishlist Items</label>
+//                                         <input
+//                                             type='text'
+//                                             value={userProfile.wishlist?.length || 0}
+//                                             disabled
+//                                             className='w-full p-3 border border-gray-200 rounded-lg bg-gray-100 text-gray-500 cursor-not-allowed'
+//                                         />
+//                                     </div>
+//                                 </div>
+//                             </div>
+//                         )}
+    
+                         
+
+// {show === 2 && (
+//   <div className='bg-white rounded-xl shadow-sm border border-gray-200 p-6'>
+//     <div className='flex justify-between items-center mb-6'>
+//       <h2 className='text-2xl font-bold text-gray-900'>My Orders</h2>
+//       <div className='px-3 py-1 bg-gray-100 text-gray-600 rounded-full text-sm'>
+//         Total Orders: {orders.length}
+//       </div>
+//     </div>
+
+//     {orders.length === 0 ? (
+//       <div className="text-center py-12">
+//         <FaBox className="text-5xl text-gray-300 mx-auto mb-3" />
+//         <p className="text-gray-500">No orders found</p>
+//         <button 
+//           onClick={() => navigate('/products')}
+//           className="mt-4 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700"
+//         >
+//           Start Shopping
+//         </button>
+//       </div>
+//     ) : (
+//       <div className='space-y-4'>
+//         {orders.map((order) => {
+//           const statusInfo = getStatusBadge(order.status, order.isCancelled);
+//           const StatusIcon = statusInfo.icon;
+          
+//           return (
+//             <div 
+//               key={order._id} 
+//               className='border border-gray-200 rounded-lg p-4 hover:shadow-md transition-all cursor-pointer'
+//               onClick={() => navigate(`/order/${order._id}`)}
+//             >
+//               {/* Order Header */}
+//               <div className='flex flex-wrap justify-between items-start mb-3 pb-3 border-b border-gray-100'>
+//                 <div>
+//                   <p className='text-sm text-gray-500'>Order #{order._id?.slice(-8)}</p>
+//                   <p className='text-xs text-gray-400'>
+//                     {new Date(order.createdAt).toLocaleDateString('en-IN', {
+//                       day: 'numeric',
+//                       month: 'short',
+//                       year: 'numeric'
+//                     })}
+//                   </p>
+//                 </div>
+//                 <div className={`px-3 py-1 rounded-full text-xs font-medium flex items-center gap-1 ${statusInfo.color}`}>
+//                   <StatusIcon size={12} />
+//                   <span>{statusInfo.text}</span>
+//                 </div>
+//               </div>
+
+//               {/* Order Items Preview */}
+//               <div className='mb-3'>
+//                 <div className='flex flex-wrap gap-2'>
+//                   {order.orderItems?.slice(0, 2).map((item, idx) => (
+//                     <div key={idx} className='flex items-center gap-2 text-sm'>
+//                       <span>{item.name}</span>
+//                       <span className='text-gray-400'>x{item.qty}</span>
+//                     </div>
+//                   ))}
+//                   {order.orderItems?.length > 2 && (
+//                     <span className='text-xs text-gray-400'>+{order.orderItems.length - 2} more</span>
+//                   )}
+//                 </div>
+//               </div>
+
+//               {/* Order Footer */}
+//               <div className='flex flex-wrap justify-between items-center pt-3 border-t border-gray-100'>
+//                 <div className='flex items-center gap-1'>
+//                   <FaRupeeSign className="text-gray-600 text-sm" />
+//                   <span className='font-bold text-gray-900'>{order.totalPrice?.toLocaleString()}</span>
+//                 </div>
+//                 <div className='flex gap-3'>
+//                   <button 
+//                     onClick={(e) => {
+//                       e.stopPropagation();
+//                       navigate(`/order/${order._id}`);
+//                     }}
+//                     className='text-sm text-red-600 hover:text-red-700'
+//                   >
+//                     View Details
+//                   </button>
+//                 </div>
+//               </div>
+//             </div>
+//           );
+//         })}
+//       </div>
+//     )}
+//   </div>
+// )}
+    
+//                         {/* Order Details Modal */}
+//                         {showOrderModal && selectedOrder && (
+//                             <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4" onClick={() => setShowOrderModal(false)}>
+//                                 <div className="bg-white rounded-xl max-w-2xl w-full max-h-[80vh] overflow-y-auto p-6" onClick={(e) => e.stopPropagation()}>
+//                                     <div className='flex justify-between items-center mb-4 pb-3 border-b'>
+//                                         <h3 className='text-xl font-bold text-gray-900'>Order Details</h3>
+//                                         <button onClick={() => setShowOrderModal(false)} className='text-gray-400 hover:text-gray-600'>
+//                                             <MdCancel size={24} />
+//                                         </button>
+//                                     </div>
+    
+//                                     {/* Order Info */}
+//                                     <div className='space-y-4'>
+//                                         <div className='grid grid-cols-2 gap-4 text-sm'>
+//                                             <div>
+//                                                 <p className='text-gray-500'>Order ID</p>
+//                                                 <p className='font-medium'>{selectedOrder._id}</p>
+//                                             </div>
+//                                             <div>
+//                                                 <p className='text-gray-500'>Order Date</p>
+//                                                 <p className='font-medium'>{formatDate(selectedOrder.createdAt)}</p>
+//                                             </div>
+//                                             <div>
+//                                                 <p className='text-gray-500'>Status</p>
+//                                                 <span className={`inline-block px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(selectedOrder.status)}`}>
+//                                                     {selectedOrder.status}
+//                                                 </span>
+//                                             </div>
+//                                             <div>
+//                                                 <p className='text-gray-500'>Payment</p>
+//                                                 <span className={`inline-block px-2 py-1 rounded-full text-xs font-medium ${getPaymentStatusColor(selectedOrder.isPaid)}`}>
+//                                                     {selectedOrder.isPaid ? 'Paid' : 'Pending'}
+//                                                 </span>
+//                                             </div>
+//                                         </div>
+    
+//                                         {/* Shipping Address */}
+//                                         {selectedOrder.shippingAddress && (
+//                                             <div className='border-t pt-3'>
+//                                                 <h4 className='font-semibold mb-2'>Shipping Address</h4>
+//                                                 <p className='text-sm text-gray-600'>
+//                                                     {selectedOrder.shippingAddress.street}<br />
+//                                                     {selectedOrder.shippingAddress.city}, {selectedOrder.shippingAddress.state}<br />
+//                                                     PIN: {selectedOrder.shippingAddress.zipCode}
+//                                                 </p>
+//                                             </div>
+//                                         )}
+    
+//                                         {/* Order Items */}
+//                                         <div className='border-t pt-3'>
+//                                             <h4 className='font-semibold mb-3'>Order Items</h4>
+//                                             <div className='space-y-2'>
+//                                                 {selectedOrder.orderItems?.map((item, idx) => (
+//                                                     <div key={idx} className='flex justify-between items-center py-2 border-b border-gray-100'>
+//                                                         <div className='flex items-center gap-3'>
+//                                                             {item.image && (
+//                                                                 <img src={item.image} alt={item.name} className='w-12 h-12 object-cover rounded' />
+//                                                             )}
+//                                                             <div>
+//                                                                 <p className='font-medium'>{item.name}</p>
+//                                                                 <p className='text-xs text-gray-500'>Qty: {item.qty}</p>
+//                                                             </div>
+//                                                         </div>
+//                                                         <p className='font-medium'>₹{item.price * item.qty}</p>
+//                                                     </div>
+//                                                 ))}
+//                                             </div>
+//                                         </div>
+    
+//                                         {/* Total */}
+//                                         <div className='border-t pt-3'>
+//                                             <div className='flex justify-between items-center'>
+//                                                 <span className='font-bold'>Total Amount</span>
+//                                                 <span className='text-xl font-bold text-gray-900'>₹{selectedOrder.totalPrice?.toLocaleString()}</span>
+//                                             </div>
+//                                         </div>
+//                                     </div>
+//                                 </div>
+//                             </div>
+//                         )}
+    
+//                         {/* Wishlist - Same as before */}
+//                         {show === 3 && (
+//                             <div className='bg-white rounded-xl shadow-sm border border-gray-200 p-6'>
+//                                 <div className='flex justify-between items-center mb-4'>
+//                                     <h2 className='text-2xl font-bold text-gray-900'>My Wishlist</h2>
+//                                     <span className='px-3 py-1 bg-gray-100 text-gray-600 rounded-full text-sm'>
+//                                         {userProfile.wishlist?.length || 0} items
+//                                     </span>
+//                                 </div>
+//                                 {!userProfile.wishlist || userProfile.wishlist.length === 0 ? (
+//                                     <div className="text-center py-12">
+//                                         <FaHeart className="text-5xl text-gray-300 mx-auto mb-3" />
+//                                         <p className="text-gray-500">Your wishlist is empty</p>
+//                                     </div>
+//                                 ) : (
+//                                     <div className="space-y-3">
+//                                         {userProfile.wishlist.map((item, index) => (
+//                                             <div key={index} className="flex items-center justify-between p-3 border rounded-lg">
+//                                                 <span>{typeof item === 'string' ? item : item.name || item.productId}</span>
+//                                             </div>
+//                                         ))}
+//                                     </div>
+//                                 )}
+//                             </div>
+//                         )}
+    
+//                         {/* Address Section - Same as before */}
+//                         {show === 4 && (
+//                             <div className='bg-white rounded-xl shadow-sm border border-gray-200 p-6'>
+//                                 <div className='flex justify-between items-center mb-6'>
+//                                     <h2 className='text-2xl font-bold text-gray-900'>Saved Addresses</h2>
+//                                     <button
+//                                         onClick={() => {
+//                                             setEditingAddress(null)
+//                                             setAddressForm({
+//                                                 street: "",
+//                                                 city: "",
+//                                                 state: "",
+//                                                 zipCode: "",
+//                                                 isDefault: false
+//                                             })
+//                                             setShowAddressForm(true)
+//                                         }}
+//                                         className='flex items-center gap-2 px-4 py-2 bg-gray-900 text-white rounded-lg hover:bg-gray-800 text-sm'
+//                                     >
+//                                         <FaPlus /> Add Address
+//                                     </button>
+//                                 </div>
+    
+//                                 {/* Address Form Modal */}
+//                                 {showAddressForm && (
+//                                     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4" onClick={() => setShowAddressForm(false)}>
+//                                         <div className="bg-white rounded-xl max-w-md w-full p-6" onClick={(e) => e.stopPropagation()}>
+//                                             <h3 className="text-xl font-bold mb-4">
+//                                                 {editingAddress ? 'Edit Address' : 'Add New Address'}
+//                                             </h3>
+//                                             <form onSubmit={editingAddress ? handleUpdateAddress : handleAddAddress} className="space-y-4">
+//                                                 <div>
+//                                                     <label className="block text-sm font-medium mb-1">Street Address</label>
+//                                                     <input
+//                                                         type="text"
+//                                                         value={addressForm.street}
+//                                                         onChange={(e) => setAddressForm({...addressForm, street: e.target.value})}
+//                                                         className="w-full p-2 border rounded-lg focus:ring-2 focus:ring-gray-900 outline-none"
+//                                                         required
+//                                                     />
+//                                                 </div>
+//                                                 <div>
+//                                                     <label className="block text-sm font-medium mb-1">City</label>
+//                                                     <input
+//                                                         type="text"
+//                                                         value={addressForm.city}
+//                                                         onChange={(e) => setAddressForm({...addressForm, city: e.target.value})}
+//                                                         className="w-full p-2 border rounded-lg focus:ring-2 focus:ring-gray-900 outline-none"
+//                                                         required
+//                                                     />
+//                                                 </div>
+//                                                 <div>
+//                                                     <label className="block text-sm font-medium mb-1">State</label>
+//                                                     <input
+//                                                         type="text"
+//                                                         value={addressForm.state}
+//                                                         onChange={(e) => setAddressForm({...addressForm, state: e.target.value})}
+//                                                         className="w-full p-2 border rounded-lg focus:ring-2 focus:ring-gray-900 outline-none"
+//                                                         required
+//                                                     />
+//                                                 </div>
+//                                                 <div>
+//                                                     <label className="block text-sm font-medium mb-1">Zip Code</label>
+//                                                     <input
+//                                                         type="text"
+//                                                         value={addressForm.zipCode}
+//                                                         onChange={(e) => setAddressForm({...addressForm, zipCode: e.target.value})}
+//                                                         className="w-full p-2 border rounded-lg focus:ring-2 focus:ring-gray-900 outline-none"
+//                                                         required
+//                                                     />
+//                                                 </div>
+//                                                 <div className="flex items-center gap-2">
+//                                                     <input
+//                                                         type="checkbox"
+//                                                         checked={addressForm.isDefault}
+//                                                         onChange={(e) => setAddressForm({...addressForm, isDefault: e.target.checked})}
+//                                                         className="w-4 h-4"
+//                                                     />
+//                                                     <label className="text-sm">Set as default address</label>
+//                                                 </div>
+//                                                 <div className="flex gap-3 pt-2">
+//                                                     <button type="submit" className="flex-1 bg-gray-900 text-white py-2 rounded-lg hover:bg-gray-800">
+//                                                         {editingAddress ? 'Update' : 'Save'} Address
+//                                                     </button>
+//                                                     <button type="button" onClick={() => setShowAddressForm(false)} className="flex-1 bg-gray-100 text-gray-700 py-2 rounded-lg hover:bg-gray-200">
+//                                                         Cancel
+//                                                     </button>
+//                                                 </div>
+//                                             </form>
+//                                         </div>
+//                                     </div>
+//                                 )}
+    
+//                                 {/* Addresses List */}
+//                                 {!addresses || addresses.length === 0 ? (
+//                                     <div className="text-center py-12">
+//                                         <FaHome className="text-5xl text-gray-300 mx-auto mb-3" />
+//                                         <p className="text-gray-500">No addresses saved</p>
+//                                         <p className="text-gray-400 text-sm mt-1">Click "Add Address" to add your first address</p>
+//                                     </div>
+//                                 ) : (
+//                                     <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
+//                                         {addresses.map((addr) => (
+//                                             <div 
+//                                                 key={addr._id} 
+//                                                 className={`border rounded-lg p-4 transition-all ${
+//                                                     addr.isDefault ? 'border-gray-900 bg-gray-50' : 'border-gray-200'
+//                                                 }`}
+//                                             >
+//                                                 <div className='flex justify-between items-start mb-3'>
+//                                                     <div className='flex items-center gap-2'>
+//                                                         <FaHome className="text-gray-600" />
+//                                                         {addr.isDefault && (
+//                                                             <span className='px-2 py-0.5 bg-gray-900 text-white text-xs rounded-full'>Default</span>
+//                                                         )}
+//                                                     </div>
+//                                                     <div className='flex gap-2'>
+//                                                         <button 
+//                                                             onClick={() => editAddress(addr)}
+//                                                             className='p-1 text-gray-500 hover:text-gray-900 transition-colors'
+//                                                             title='Edit'
+//                                                         >
+//                                                             <FaEdit size={14} />
+//                                                         </button>
+//                                                         <button 
+//                                                             onClick={() => handleDeleteAddress(addr._id)}
+//                                                             className='p-1 text-gray-500 hover:text-red-600 transition-colors'
+//                                                             title='Delete'
+//                                                         >
+//                                                             <FaTrash size={14} />
+//                                                         </button>
+//                                                     </div>
+//                                                 </div>
+//                                                 <div className='space-y-1 text-sm'>
+//                                                     <p className='text-gray-800'>{addr.street}</p>
+//                                                     <p className='text-gray-600'>{addr.city}, {addr.state}</p>
+//                                                     <p className='text-gray-600'>PIN: {addr.zipCode}</p>
+//                                                 </div>
+//                                                 {!addr.isDefault && (
+//                                                     <button 
+//                                                         onClick={() => handleSetDefault(addr._id)}
+//                                                         className='mt-3 text-xs text-gray-500 hover:text-gray-900 flex items-center gap-1 transition-colors'
+//                                                     >
+//                                                         <FaCheck size={10} /> Set as default
+//                                                     </button>
+//                                                 )}
+//                                             </div>
+//                                         ))}
+//                                     </div>
+//                                 )}
+//                             </div>
+//                         )}
+    
+//                         {/* Payment, Security, Settings - Coming Soon */}
+//                         {show === 5 && (
+//                             <div className='bg-white rounded-xl shadow-sm border border-gray-200 p-8 text-center'>
+//                                 <div className="py-12">
+//                                     <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+//                                         <FaCcAmazonPay className="text-2xl text-gray-600" />
+//                                     </div>
+//                                     <h3 className="text-xl font-semibold text-gray-900 mb-2">Payment Methods</h3>
+//                                     <p className="text-gray-500">This feature will be available soon</p>
+//                                 </div>
+//                             </div>
+//                         )}
+    
+//                         {show === 6 && (
+//                             <div className='bg-white rounded-xl shadow-sm border border-gray-200 p-8 text-center'>
+//                                 <div className="py-12">
+//                                     <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+//                                         <AiFillSecurityScan className="text-2xl text-gray-600" />
+//                                     </div>
+//                                     <h3 className="text-xl font-semibold text-gray-900 mb-2">Security Settings</h3>
+//                                     <p className="text-gray-500">This feature will be available soon</p>
+//                                 </div>
+//                             </div>
+//                         )}
+    
+//                         {show === 7 && (
+//                             <div className='bg-white rounded-xl shadow-sm border border-gray-200 p-8 text-center'>
+//                                 <div className="py-12">
+//                                     <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+//                                         <IoSettings className="text-2xl text-gray-600" />
+//                                     </div>
+//                                     <h3 className="text-xl font-semibold text-gray-900 mb-2">App Settings</h3>
+//                                     <p className="text-gray-500">This feature will be available soon</p>
+//                                 </div>
+//                             </div>
+//                         )}
+//                     </div>
+//                 </div>
+//             </div>
+//         </div>
+//     )
+// }
+    
+// export default Profile
+
+
+
 import React, { useState, useEffect } from 'react'
-import { 
-  FaBell, FaCamera, FaEdit, FaEye, FaLockOpen, FaPlus, FaSave, 
-  FaShoppingCart, FaTractor, FaHeart, FaHome, FaPumpSoap, 
-  FaHeadphones, FaWallet, FaMugHot, FaDumbbell, FaClock,
-  FaEdit as FaEditIcon, FaTrash, FaRegSmile, FaRegLaughSquint
-} from "react-icons/fa";
+import { useNavigate } from 'react-router-dom'
 import { CgProfile } from "react-icons/cg";
 import { SiShopify } from "react-icons/si";
-import { FaCcAmazonPay, FaMoneyBill1, FaLocationDot } from "react-icons/fa6";
+import { FaHeart, FaHome, FaEdit, FaSave, FaPlus, FaTrash, FaCheck, FaRupeeSign, FaBox } from "react-icons/fa";
+import { FaCcAmazonPay } from "react-icons/fa6";
 import { AiFillSecurityScan } from "react-icons/ai";
-import { IoSettings, IoLogOutSharp, IoShareSocial } from "react-icons/io5";
-import { FaLock } from "react-icons/fa";
+import { IoSettings, IoLogOutSharp } from "react-icons/io5";
 import { MdCancel } from "react-icons/md";
-import { TbTruckDelivery } from "react-icons/tb";
-import { CiShop } from "react-icons/ci";
-import { MdShoppingCart } from "react-icons/md";
-import { RiDeleteBin5Fill, RiMailAddFill } from "react-icons/ri";
-import { IoSettingsSharp } from "react-icons/io5";
-import { Textarea } from 'flowbite-react';
-import { GiRotaryPhone } from "react-icons/gi";
-import { SlCalender } from "react-icons/sl";
+import API from "../utils/api";
 
 const Profile = () => {
+    const navigate = useNavigate()
     const [show, setShow] = useState(1)
     const [isEditing, setIsEditing] = useState(false);
-    const [tempName, setTempName] = useState("Rampratap Singh")
-    const [email] = useState("rampratap.singh@gmail.com")
-    const [phone, setPhone] = useState("+91 98765 43210")
-    const [tempPhone, setTempPhone] = useState("+91 98765 43210")
-    const [address, setAddress] = useState("123 Green Valley, Andheri West, Mumbai, Maharashtra 400053")
-    const [tempAddress, setTempAddress] = useState("123 Green Valley, Andheri West, Mumbai, Maharashtra 400053")
-    const [memberSince] = useState("March 2023")
     const [activeTab, setActiveTab] = useState(1)
+    const [isLoading, setIsLoading] = useState(true)
+    const [error, setError] = useState(null)
+    
+    // Address States
+    const [addresses, setAddresses] = useState([])
+    const [showAddressForm, setShowAddressForm] = useState(false)
+    const [editingAddress, setEditingAddress] = useState(null)
+    const [addressForm, setAddressForm] = useState({
+        street: "",
+        city: "",
+        state: "",
+        zipCode: "",
+        isDefault: false
+    })
+    
+    // Orders State
+    const [orders, setOrders] = useState([])
+    const [selectedOrder, setSelectedOrder] = useState(null)
+    const [showOrderModal, setShowOrderModal] = useState(false)
+    
+    // Profile State with default values
+    const [userProfile, setUserProfile] = useState({
+        _id: "",
+        name: "",
+        email: "",
+        phone: "",
+        wishlist: [],
+        createdAt: ""
+    })
+    
+    const [tempProfile, setTempProfile] = useState({
+        name: "",
+        phone: ""
+    })
 
-    const [wishlist, setWishlist] = useState([
-        { id: 1, name: "Radiant Glow Serum", category: "Face & Skin Care", price: 1899, rating: 4.5, reviews: 128, icon: <FaPumpSoap className="text-black" /> },
-        { id: 2, name: "Wireless Earbuds", category: "Electronics", price: 3499, rating: 4.7, reviews: 256, icon: <FaHeadphones className="text-black" /> },
-        { id: 3, name: "Leather Wallet", category: "Accessories", price: 2499, rating: 4.8, reviews: 89, icon: <FaWallet className="text-black" /> },
-        { id: 4, name: "Organic Green Tea", category: "Food", price: 499, rating: 4.3, reviews: 312, icon: <FaMugHot className="text-black" /> },
-        { id: 5, name: "Yoga Mat", category: "Fitness", price: 1599, rating: 4.6, reviews: 178, icon: <FaDumbbell className="text-black" /> },
-        { id: 6, name: "Smart Watch", category: "Electronics", price: 8999, rating: 4.4, reviews: 432, icon: <FaClock className="text-black" /> }
-    ]);
-
-    const [orders] = useState([
-        { id: 1, date: "15 Nov 2024", status: "Delivered", total: 1450, items: 3, tracking: "TRK785421369" },
-        { id: 2, date: "10 Nov 2024", status: "Processing", total: 3299, items: 2, tracking: "TRK985421368" },
-        { id: 3, date: "05 Nov 2024", status: "Shipped", total: 5499, items: 5, tracking: "TRK685421367" }
-    ]);
-
-    const [addresses, setAddresses] = useState([
-        { id: 1, type: "Home", isDefault: true, address: "123 Green Valley, Andheri West, Mumbai, Maharashtra 400053" },
-        { id: 2, type: "Office", isDefault: false, address: "Tech Park, Floor 8, Hiranandani, Powai, Mumbai 400076" },
-        { id: 3, type: "Parents' House", isDefault: false, address: "45 Rose Garden, Sector 22, Delhi 110022" }
-    ]);
-
-    // Scroll to top when section changes
-    useEffect(() => {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-    }, [show]);
-
-    const handleEditSave = () => {
-        if (isEditing) {
-            setPhone(tempPhone);
-            setAddress(tempAddress);
+    // Get status badge color and icon
+    const getStatusBadge = (status, isCancelled) => {
+        if (isCancelled) {
+            return { color: 'bg-red-100 text-red-800', icon: '❌', text: 'Cancelled' };
         }
-        setIsEditing(!isEditing);
+        switch(status) {
+            case 'Delivered':
+                return { color: 'bg-green-100 text-green-800', icon: '✅', text: 'Delivered' };
+            case 'Shipped':
+                return { color: 'bg-blue-100 text-blue-800', icon: '🚚', text: 'Shipped' };
+            case 'Processing':
+                return { color: 'bg-yellow-100 text-yellow-800', icon: '⏳', text: 'Processing' };
+            default:
+                return { color: 'bg-gray-100 text-gray-800', icon: '📦', text: status || 'Placed' };
+        }
     };
-
-    const handleCancel = () => {
-        setTempPhone(phone);
-        setTempAddress(address);
-        setIsEditing(false);
-    };
-
-    const removeFromWishlist = (id) => {
-        setWishlist(wishlist.filter(item => item.id !== id));
-    };
-
-    const setDefaultAddress = (id) => {
-        setAddresses(addresses.map(addr => ({
-            ...addr,
-            isDefault: addr.id === id
-        })));
-    };
-
-    const deleteAddress = (id) => {
-        setAddresses(addresses.filter(addr => addr.id !== id));
-    };
-
+    
+    useEffect(() => {
+        fetchUserProfile()
+        fetchAddresses()
+        fetchOrders()
+        fetchWishlist()
+    }, [])
+    
+    const fetchUserProfile = async () => {
+        setIsLoading(true)
+        setError(null)
+        
+        try {
+            const response = await API.get('/user/profile')
+            setUserProfile(response.data)
+            setTempProfile({
+                name: response.data.name || "",
+                phone: response.data.phone || ""
+            })
+        } catch (err) {
+            if (err.response?.status === 401) {
+                navigate('/')
+            } else {
+                setError(err.response?.data?.message || "Failed to fetch profile")
+            }
+        } finally {
+            setIsLoading(false)
+        }
+    }
+    
+    // Fetch wishlist with product details
+    const fetchWishlist = async () => {
+        try {
+            const response = await API.get('/user/wishlist')
+            if (response.data && response.data.wishlist) {
+                setUserProfile(prev => ({ ...prev, wishlist: response.data.wishlist }))
+            }
+        } catch (err) {
+            console.error("Failed to fetch wishlist:", err)
+        }
+    }
+    
+    // Fetch all orders for the user
+    const fetchOrders = async () => {
+        try {
+            const response = await API.get('/orders/myorders')
+            if (Array.isArray(response.data)) {
+                setOrders(response.data)
+            } else if (response.data && Array.isArray(response.data.orders)) {
+                setOrders(response.data.orders)
+            } else {
+                setOrders([])
+            }
+        } catch (err) {
+            console.error("Failed to fetch orders:", err)
+            setOrders([])
+        }
+    }
+    
+    // Remove from wishlist
+    const removeFromWishlist = async (productId) => {
+        try {
+            const response = await API.post('/user/wishlist', { productId })
+            if (response.data.success) {
+                fetchWishlist()
+            }
+        } catch (err) {
+            console.error("Failed to remove from wishlist:", err)
+        }
+    }
+    
+    // Fetch single order details
+    const fetchOrderDetails = async (orderId) => {
+        setIsLoading(true)
+        try {
+            const response = await API.get(`/orders/${orderId}`)
+            setSelectedOrder(response.data)
+            setShowOrderModal(true)
+        } catch (err) {
+            setError(err.response?.data?.message || "Failed to fetch order details")
+        } finally {
+            setIsLoading(false)
+        }
+    }
+    
+    // Get status badge color
     const getStatusColor = (status) => {
         switch(status) {
-            case 'Delivered': return 'bg-green-100 text-green-800 border-green-300';
-            case 'Shipped': return 'bg-blue-100 text-blue-800 border-blue-300';
-            case 'Processing': return 'bg-yellow-100 text-yellow-800 border-yellow-300';
-            default: return 'bg-black-100 text-black-800 border-black-300';
+            case 'Delivered': return 'bg-green-100 text-green-800'
+            case 'Processing': return 'bg-yellow-100 text-yellow-800'
+            case 'Shipped': return 'bg-blue-100 text-blue-800'
+            case 'Cancelled': return 'bg-red-100 text-red-800'
+            default: return 'bg-gray-100 text-gray-800'
         }
-    };
-
+    }
+    
+    // Get payment status color
+    const getPaymentStatusColor = (isPaid) => {
+        return isPaid ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
+    }
+    
+    // Format date
+    const formatDate = (dateString) => {
+        if (!dateString) return "N/A"
+        const date = new Date(dateString)
+        return date.toLocaleDateString('en-US', { 
+            year: 'numeric', 
+            month: 'short', 
+            day: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit'
+        })
+    }
+    
+    // Address functions
+    const fetchAddresses = async () => {
+        try {
+            const response = await API.get('/user/address')
+            if (Array.isArray(response.data)) {
+                setAddresses(response.data)
+            } else if (response.data && Array.isArray(response.data.addresses)) {
+                setAddresses(response.data.addresses)
+            } else {
+                setAddresses([])
+            }
+        } catch (err) {
+            console.error("Failed to fetch addresses:", err)
+            setAddresses([])
+        }
+    }
+    
+    const handleAddAddress = async (e) => {
+        e.preventDefault()
+        setIsLoading(true)
+        try {
+            const response = await API.post('/user/address', addressForm)
+            if (Array.isArray(response.data)) {
+                setAddresses(response.data)
+            } else if (response.data && Array.isArray(response.data.addresses)) {
+                setAddresses(response.data.addresses)
+            } else {
+                setAddresses([])
+            }
+            setShowAddressForm(false)
+            setAddressForm({
+                street: "",
+                city: "",
+                state: "",
+                zipCode: "",
+                isDefault: false
+            })
+        } catch (err) {
+            setError(err.response?.data?.message || "Failed to add address")
+        } finally {
+            setIsLoading(false)
+        }
+    }
+    
+    const handleUpdateAddress = async (e) => {
+        e.preventDefault()
+        setIsLoading(true)
+        try {
+            const response = await API.put(`/user/address/${editingAddress._id}`, addressForm)
+            if (Array.isArray(response.data)) {
+                setAddresses(response.data)
+            } else if (response.data && Array.isArray(response.data.addresses)) {
+                setAddresses(response.data.addresses)
+            } else {
+                setAddresses([])
+            }
+            setShowAddressForm(false)
+            setEditingAddress(null)
+            setAddressForm({
+                street: "",
+                city: "",
+                state: "",
+                zipCode: "",
+                isDefault: false
+            })
+        } catch (err) {
+            setError(err.response?.data?.message || "Failed to update address")
+        } finally {
+            setIsLoading(false)
+        }
+    }
+    
+    const handleDeleteAddress = async (addressId) => {
+        if (!window.confirm("Are you sure you want to delete this address?")) return
+        
+        setIsLoading(true)
+        try {
+            const response = await API.delete(`/user/address/${addressId}`)
+            if (Array.isArray(response.data)) {
+                setAddresses(response.data)
+            } else if (response.data && Array.isArray(response.data.addresses)) {
+                setAddresses(response.data.addresses)
+            } else {
+                setAddresses([])
+            }
+        } catch (err) {
+            setError(err.response?.data?.message || "Failed to delete address")
+        } finally {
+            setIsLoading(false)
+        }
+    }
+    
+    const handleSetDefault = async (addressId) => {
+        setIsLoading(true)
+        try {
+            const addressToUpdate = addresses.find(addr => addr._id === addressId)
+            const response = await API.put(`/user/address/${addressId}`, {
+                street: addressToUpdate.street,
+                city: addressToUpdate.city,
+                state: addressToUpdate.state,
+                zipCode: addressToUpdate.zipCode,
+                isDefault: true
+            })
+            if (Array.isArray(response.data)) {
+                setAddresses(response.data)
+            } else if (response.data && Array.isArray(response.data.addresses)) {
+                setAddresses(response.data.addresses)
+            } else {
+                setAddresses([])
+            }
+        } catch (err) {
+            setError(err.response?.data?.message || "Failed to set default address")
+        } finally {
+            setIsLoading(false)
+        }
+    }
+    
+    const editAddress = (address) => {
+        setEditingAddress(address)
+        setAddressForm({
+            street: address.street,
+            city: address.city,
+            state: address.state,
+            zipCode: address.zipCode,
+            isDefault: address.isDefault || false
+        })
+        setShowAddressForm(true)
+    }
+    
+    const handleEditSave = async () => {
+        if (isEditing) {
+            setIsLoading(true)
+            try {
+                const response = await API.put('/user/profile', {
+                    name: tempProfile.name,
+                    phone: tempProfile.phone
+                })
+                setUserProfile(prev => ({ ...prev, name: response.data.name, phone: response.data.phone }))
+                alert("Profile updated successfully!")
+            } catch (err) {
+                setError(err.response?.data?.message || "Failed to update profile")
+            } finally {
+                setIsLoading(false)
+            }
+        }
+        setIsEditing(!isEditing);
+    }
+    
+    const handleCancel = () => {
+        setTempProfile({
+            name: userProfile.name || "",
+            phone: userProfile.phone || ""
+        });
+        setIsEditing(false);
+    }
+    
+    const updateProfileField = (field, value) => {
+        setTempProfile(prev => ({ ...prev, [field]: value }))
+    }
+    
+    const handleLogout = () => {
+        localStorage.removeItem('token')
+        localStorage.removeItem('user')
+        navigate('/')
+    }
+    
     const handleNavClick = (id) => {
         setShow(id);
         setActiveTab(id);
-    };
-
-    return (
-        <div className='bg-gradient-to-br from-black-50 to-white text-black-900 min-h-screen'>
-            <div className='py-6 px-4 md:px-8 max-w-7xl '>
-                {/* Header */}
-                <div className='text-center mb-8 animate-fadeIn'>
-                    <h1 className='text-3xl md:text-4xl font-bold text-black'>
-                        My Profile
-                    </h1>
-                    <p className='text-black-600 mt-2 text-sm md:text-base'>
-                        Manage your account, track orders, and customize your shopping preferences
-                    </p>
+        if (id === 2) {
+            fetchOrders()
+        }
+        if (id === 3) {
+            fetchWishlist()
+        }
+        if (id === 4) {
+            fetchAddresses()
+        }
+    }
+    
+    if (isLoading && !userProfile.name) {
+        return (
+            <div className="min-h-screen flex items-center justify-center bg-gray-50">
+                <div className="text-center">
+                    <div className="w-10 h-10 border-4 border-gray-200 border-t-gray-900 rounded-full animate-spin mx-auto mb-3"></div>
+                    <p className="text-gray-600">Loading profile...</p>
                 </div>
-
-                {/* Main Layout */}
-                <div className='flex flex-col lg:flex-row gap-6 animate-fadeIn'>
-                    {/* Sidebar - Left */}
+            </div>
+        )
+    }
+    
+    if (error) {
+        return (
+            <div className="min-h-screen flex items-center justify-center bg-gray-50">
+                <div className="text-center max-w-md mx-auto p-6 bg-white rounded-lg shadow">
+                    <div className="text-red-600 text-5xl mb-3">!</div>
+                    <h2 className="text-xl font-bold text-gray-900 mb-2">Error</h2>
+                    <p className="text-gray-600 mb-4">{error}</p>
+                    <button 
+                        onClick={() => {
+                            setError(null)
+                            fetchUserProfile()
+                            fetchAddresses()
+                            fetchOrders()
+                        }}
+                        className="px-5 py-2 bg-gray-900 text-white rounded-lg hover:bg-gray-800"
+                    >
+                        Try Again
+                    </button>
+                </div>
+            </div>
+        )
+    }
+    
+    return (
+        <div className='bg-gray-50 min-h-screen'>
+            <div className='py-8 px-4 max-w-7xl mx-auto'>
+                <h1 className='text-3xl font-bold text-gray-900 mb-8'>
+                    My Account
+                </h1>
+    
+                <div className='flex flex-col lg:flex-row gap-8'>
+                    {/* Sidebar */}
                     <div className='lg:w-1/4'>
-                        <div className='bg-white border border-black/20 rounded-2xl p-6  hover:shadow-2xl transition-all duration-300'>
-                            {/* Profile Info */}
-                            <div className='flex flex-col items-center py-5 border-b border-white/30 mb-6'>
-                                <div className='relative mb-4 group'>
-                                    <div className='w-24 h-24 rounded-full overflow-hidden border-4 border-white shadow-lg transition-transform duration-300 group-hover:scale-105'>
-                                        <img
-                                            src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=774&q=80"
-                                            className='w-full h-full object-cover'
-                                            alt="Profile"
-                                        />
-                                    </div>
-                                    <button className='absolute bottom-2 right-2 bg-black text-white p-2 rounded-full shadow-lg hover:scale-110 transition-transform duration-300'>
-                                        <FaCamera size={14} className="text-white" />
-                                    </button>
+                        <div className='bg-white rounded-xl shadow-sm border border-gray-200 p-6'>
+                            <div className='flex flex-col items-center text-center pb-6 border-b border-gray-200 mb-6'>
+                                <div className='w-24 h-24 rounded-full bg-gradient-to-br from-gray-800 to-gray-900 flex items-center justify-center mb-4'>
+                                    <CgProfile className="text-white text-5xl" />
                                 </div>
-                                <h2 className='text-xl font-bold text-black mb-1'>{tempName}</h2>
-                                <p className='text-black-800 text-sm mb-3'>{email}</p>
-                                <div className='flex items-center space-x-1'>
-                                    {[...Array(5)].map((_, i) => (
-                                        <span key={i} className='text-yellow-600'>★</span>
-                                    ))}
-                                    <span className='text-black-800 text-sm ml-2'>(4.4)</span>
-                                </div>
+                                <h2 className='text-xl font-bold text-gray-900 mb-1'>{userProfile.name || ''}</h2>
+                                <p className='text-gray-500 text-sm'>{userProfile.email || ''}</p>
+                                <p className='text-gray-400 text-xs mt-2'>Member since {formatDate(userProfile.createdAt)}</p>
                             </div>
-
-                            {/* Navigation */}
-                            <nav className='space-y-2'>
+    
+                            <nav className='space-y-1'>
                                 {[
-                                    { id: 1, icon: <CgProfile className="text-black" />, label: "Profile Info" },
-                                    { id: 2, icon: <SiShopify className="text-black" />, label: "My Orders" },
-                                    { id: 3, icon: <FaHeart className="text-black" />, label: "Wishlist" },
-                                    { id: 4, icon: <FaHome className="text-black" />, label: "Address" },
-                                    { id: 5, icon: <FaCcAmazonPay className="text-black" />, label: "Payment" },
-                                    { id: 6, icon: <AiFillSecurityScan className="text-black" />, label: "Security" },
-                                    { id: 7, icon: <IoSettings className="text-black" />, label: "Settings" }
+                                    { id: 1, icon: <CgProfile />, label: "Profile Info" },
+                                    { id: 2, icon: <SiShopify />, label: "My Orders" },
+                                    { id: 3, icon: <FaHeart />, label: "Wishlist" },
+                                    { id: 4, icon: <FaHome />, label: "Address" },
+                                    { id: 5, icon: <FaCcAmazonPay />, label: "Payment" },
+                                    { id: 6, icon: <AiFillSecurityScan />, label: "Security" },
+                                    { id: 7, icon: <IoSettings />, label: "Settings" }
                                 ].map((item) => (
                                     <button
                                         key={item.id}
                                         onClick={() => handleNavClick(item.id)}
-                                        className={`flex items-center w-full p-3 rounded-xl transition-all duration-300 group ${
+                                        className={`flex items-center w-full p-3 rounded-lg transition-all text-left ${
                                             activeTab === item.id 
-                                            ? 'bg-white/90 text-black shadow-lg transform scale-[1.02]' 
-                                            : 'text-black hover:bg-white/50 hover:shadow-md'
+                                            ? 'bg-gray-100 text-gray-900 font-medium' 
+                                            : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'
                                         }`}
                                     >
-                                        <span className={`text-lg mr-3 transition-transform duration-300 ${
-                                            activeTab === item.id ? 'scale-110' : 'group-hover:scale-110'
-                                        }`}>
-                                            {item.icon}
-                                        </span>
-                                        <span className='font-medium'>{item.label}</span>
-                                        {activeTab === item.id && (
-                                            <div className='ml-auto w-2 h-2 bg-black rounded-full animate-pulse'></div>
-                                        )}
+                                        <span className='mr-3 text-lg'>{item.icon}</span>
+                                        <span>{item.label}</span>
                                     </button>
                                 ))}
                                 
-                                <button className='flex items-center w-full p-3 rounded-xl text-black hover:bg-white/50 transition-all duration-300 hover:shadow-md group mt-4'>
-                                    <span className='text-lg mr-3 group-hover:scale-110 transition-transform duration-300'>
-                                        <IoLogOutSharp className="text-black" />
-                                    </span>
-                                    <span className='font-medium'>Logout</span>
+                                <button 
+                                    onClick={handleLogout}
+                                    className='flex items-center w-full p-3 rounded-lg text-gray-600 hover:bg-gray-50 hover:text-gray-900 transition-all mt-4'
+                                >
+                                    <span className='mr-3 text-lg'><IoLogOutSharp /></span>
+                                    <span>Logout</span>
                                 </button>
                             </nav>
                         </div>
                     </div>
-
-                    {/* Main Content - Right */}
+    
+                    {/* Main Content */}
                     <div className='lg:w-3/4'>
                         {/* Profile Info */}
                         {show === 1 && (
-                            <div className='animate-slideIn'>
-                                {/* Stats Cards */}
-                                <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
-                                    {[
-                                        { icon: <FaLock className="text-black text-xl" />, value: orders.length, label: "Total Orders", color: "" },
-                                        { icon: <FaRegSmile className="text-black text-xl" />, value: wishlist.length, label: "Wishlist Items", color: "" },
-                                        { icon: <FaLocationDot className="text-black text-xl" />, value: "1,250", label: "Loyalty Points", color: "" },
-                                        { icon: <TbTruckDelivery className="text-black text-xl" />, value: "₹8,450", label: "Money Saved", color: "" }
-                                    ].map((stat, index) => (
-                                        <div 
-                                            key={index} 
-                                            className={`bg-gradient-to-br ${stat.color} rounded-2xl p-5 shadow-lg hover:shadow-xl border border-black/20 transition-all duration-300 hover:-translate-y-1`}
-                                        >
-                                            <div className="text-black mb-3 flex justify-center">{stat.icon}</div>
-                                            <h3 className="text-2xl font-bold text-black mb-1 text-center">{stat.value}</h3>
-                                            <p className="text-black-900 text-sm text-center">{stat.label}</p>
-                                        </div>
-                                    ))}
-                                </div>
-
-                                {/* Profile Form */}
-                                <div className='bg-white rounded-2xl shadow-lg border border-black-200 p-6 hover:shadow-xl transition-all duration-300'>
-                                    <div className='flex flex-col md:flex-row justify-between items-start md:items-center mb-6'>
-                                        <h2 className='text-2xl font-bold text-black-900 mb-4 md:mb-0'>Profile Information</h2>
-                                        <div className='flex gap-3'>
-                                            {isEditing ? (
-                                                <>
-                                                    <button
-                                                        onClick={handleEditSave}
-                                                        className='flex items-center gap-2 bg-gradient-to-br from-pink-700 via-pink-700 to-pink-700 text-black px-4 py-2.5 rounded-xl hover:shadow-lg transition-all duration-300 hover:scale-105'
-                                                    >
-                                                        <FaSave className="text-black" /> Save Changes
-                                                    </button>
-                                                    <button
-                                                        onClick={handleCancel}
-                                                        className='flex items-center gap-2 bg-black-200 text-black-800 px-4 py-2.5 rounded-xl hover:shadow-lg transition-all duration-300 hover:scale-105'
-                                                    >
-                                                        <MdCancel className="text-black" /> Cancel
-                                                    </button>
-                                                </>
-                                            ) : (
+                            <div className='bg-white rounded-xl shadow-sm border border-gray-200 p-6'>
+                                <div className='flex justify-between items-center mb-6 pb-4 border-b border-gray-200'>
+                                    <h2 className='text-2xl font-bold text-gray-900'>Profile Information</h2>
+                                    <div className='flex gap-3'>
+                                        {isEditing ? (
+                                            <>
                                                 <button
-                                                    onClick={() => setIsEditing(true)}
-                                                    className='flex items-center gap-2 bg-gradient-to-br from-pink-700 via-pink-700 to-pink-700 text-black px-4 py-2.5 rounded-xl hover:shadow-lg transition-all duration-300 hover:scale-105'
+                                                    onClick={handleEditSave}
+                                                    className='flex items-center gap-2 px-4 py-2 bg-gray-900 text-white rounded-lg hover:bg-gray-800 transition-all text-sm'
+                                                    disabled={isLoading}
                                                 >
-                                                    <FaEdit className="text-black" /> Edit Profile
+                                                    <FaSave /> {isLoading ? 'Saving...' : 'Save'}
                                                 </button>
-                                            )}
-                                        </div>
+                                                <button
+                                                    onClick={handleCancel}
+                                                    className='flex items-center gap-2 px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-all text-sm'
+                                                >
+                                                    <MdCancel /> Cancel
+                                                </button>
+                                            </>
+                                        ) : (
+                                            <button
+                                                onClick={() => setIsEditing(true)}
+                                                className='flex items-center gap-2 px-4 py-2 bg-gray-900 text-white rounded-lg hover:bg-gray-800 transition-all text-sm'
+                                            >
+                                                <FaEdit /> Edit Profile
+                                            </button>
+                                        )}
                                     </div>
-
-                                    <div className='grid grid-cols-1 md:grid-cols-2 gap-6 mb-6'>
-                                        {[
-                                            { label: "Full Name", value: tempName, setValue: setTempName, icon: <CgProfile className="text-black" /> },
-                                            { label: "Phone Number", value: tempPhone, setValue: setTempPhone, icon: <GiRotaryPhone className="text-black" /> },
-                                            { label: "Email Address", value: email, icon: <RiMailAddFill className="text-black" />, disabled: true },
-                                            { label: "Member Since", value: memberSince, icon: <SlCalender className="text-black" />, disabled: true }
-                                        ].map((field, index) => (
-                                            <div key={index} className='space-y-2 transition-all duration-300 hover:scale-[1.01]'>
-                                                <label className='text-black-700 font-medium'>{field.label}</label>
-                                                <div className={`flex items-center bg-black-50 rounded-xl p-3 border ${
-                                                    isEditing && !field.disabled ? 'border-pink-700' : 'border-black-300'
-                                                } transition-all duration-300`}>
-                                                    <span className='mr-3'>{field.icon}</span>
-                                                    <input
-                                                        type='text'
-                                                        value={field.value}
-                                                        onChange={(e) => field.setValue?.(e.target.value)}
-                                                        disabled={!isEditing || field.disabled}
-                                                        className='flex-1 bg-transparent outline-none text-black-900 text-base disabled:opacity-75'
-                                                    />
-                                                </div>
-                                            </div>
-                                        ))}
+                                </div>
+    
+                                <div className='space-y-5'>
+                                    <div>
+                                        <label className='block text-gray-700 text-sm font-medium mb-2'>Full Name</label>
+                                        <input
+                                            type='text'
+                                            value={isEditing ? (tempProfile.name || '') : (userProfile.name || '')}
+                                            onChange={(e) => updateProfileField('name', e.target.value)}
+                                            disabled={!isEditing}
+                                            className='w-full p-3 border border-gray-300 rounded-lg bg-gray-50 disabled:bg-gray-100 focus:ring-2 focus:ring-gray-900 outline-none'
+                                        />
                                     </div>
-
-                                    <div className='space-y-2 transition-all duration-300 hover:scale-[1.01]'>
-                                        <label className='text-black-700 font-medium'>Delivery Address</label>
-                                        <div className={`bg-black-50 rounded-xl p-3 border ${
-                                            isEditing ? 'border-pink-700' : 'border-black-300'
-                                        } transition-all duration-300`}>
-                                            <Textarea
-                                                value={tempAddress}
-                                                onChange={(e) => setTempAddress(e.target.value)}
-                                                disabled={!isEditing}
-                                                className='bg-transparent border-none text-black-900 text-base min-h-[100px] resize-none'
-                                                placeholder="Enter your delivery address..."
-                                            />
-                                        </div>
+                                    
+                                    <div>
+                                        <label className='block text-gray-700 text-sm font-medium mb-2'>Phone Number</label>
+                                        <input
+                                            type='text'
+                                            value={isEditing ? (tempProfile.phone || '') : (userProfile.phone || '')}
+                                            onChange={(e) => updateProfileField('phone', e.target.value)}
+                                            disabled={!isEditing}
+                                            className='w-full p-3 border border-gray-300 rounded-lg bg-gray-50 disabled:bg-gray-100 focus:ring-2 focus:ring-gray-900 outline-none'
+                                        />
+                                    </div>
+                                    
+                                    <div>
+                                        <label className='block text-gray-700 text-sm font-medium mb-2'>Email Address</label>
+                                        <input
+                                            type='email'
+                                            value={userProfile.email || ''}
+                                            disabled
+                                            className='w-full p-3 border border-gray-200 rounded-lg bg-gray-100 text-gray-500 cursor-not-allowed'
+                                        />
                                     </div>
                                 </div>
                             </div>
                         )}
-
-                        {/* Orders */}
+    
+                        {/* My Orders */}
                         {show === 2 && (
-                            <div className='animate-slideIn'>
-                                <div className='bg-white rounded-2xl shadow-lg border border-black-200 p-6 hover:shadow-xl transition-all duration-300'>
-                                    <div className='flex flex-col md:flex-row justify-between items-start md:items-center mb-6'>
-                                        <h2 className='text-2xl font-bold text-black-900 mb-4 md:mb-0'>My Orders</h2>
-                                        <div className='px-4 py-2 bg-gradient-to-br from-pink-700 via-pink-700 to-pink-700 rounded-full'>
-                                            <span className='text-black font-medium'>Total Orders: {orders.length}</span>
-                                        </div>
-                                    </div>
-
-                                    <div className='space-y-4'>
-                                        {orders.map((order) => (
-                                            <div key={order.id} className='bg-black-50 rounded-xl p-5 border border-black-300 hover:border-pink-700 hover:shadow-md transition-all duration-300'>
-                                                <div className='flex flex-col md:flex-row justify-between mb-4'>
-                                                    <div>
-                                                        <h3 className='text-lg font-bold text-black-900'>Order #{order.id.toString().padStart(6, '0')}</h3>
-                                                        <p className='text-black-600 text-sm flex items-center mt-1'>
-                                                            <CiShop className='mr-2 text-black' /> Placed on {order.date}
-                                                        </p>
-                                                    </div>
-                                                    <span className={`px-3 py-1 rounded-full text-sm font-medium border ${getStatusColor(order.status)} mt-2 md:mt-0`}>
-                                                        {order.status}
-                                                    </span>
-                                                </div>
-
-                                                <div className='mb-4'>
-                                                    <h4 className='text-black-700 text-sm mb-2'>Products:</h4>
-                                                    <div className='flex flex-wrap gap-2'>
-                                                        {["Lipstick", "Sneakers", "T-Shirt", "Headphones", "Phone Case"].slice(0, order.items).map((item, idx) => (
-                                                            <div key={idx} className='flex items-center gap-2 px-3 py-2 bg-white rounded-lg border border-black-300 hover:border-pink-700 hover:scale-105 transition-all duration-200'>
-                                                                <span className='text-black'>
-                                                                    {idx === 0 ? <FaRegLaughSquint className="text-black" /> : 
-                                                                     idx === 1 ? <FaShoppingCart className="text-black" /> : 
-                                                                     idx === 2 ? <FaShoppingCart className="text-black" /> : 
-                                                                     idx === 3 ? <FaHeadphones className="text-black" /> : 
-                                                                     <FaHeadphones className="text-black" />}
-                                                                </span>
-                                                                <span className='text-sm font-medium'>{item}</span>
-                                                            </div>
-                                                        ))}
-                                                    </div>
-                                                </div>
-
-                                                <div className='grid grid-cols-2 md:grid-cols-5 gap-4 pt-4 border-t border-black-300 text-sm'>
-                                                    <div className='flex items-center text-black-700'>
-                                                        <CiShop className='mr-2 text-black' /> <span>Items: {order.items}</span>
-                                                    </div>
-                                                    <div className='flex items-center text-black-700'>
-                                                        <FaMoneyBill1 className='mr-2 text-black' /> <span>Total: ₹{order.total.toLocaleString()}</span>
-                                                    </div>
-                                                    <div className='flex items-center text-black-700'>
-                                                        <FaTractor className='mr-2 text-black' /> <span>Track</span>
-                                                    </div>
-                                                    <div className='flex items-center text-black-700'>
-                                                        <FaEye className='mr-2 text-black' /> <button className='hover:text-pink-700 transition-colors'>Details</button>
-                                                    </div>
-                                                    <div className='flex items-center text-black-700'>
-                                                        <CiShop className='mr-2 text-black' /> <button className='hover:text-pink-700 transition-colors'>Reorder</button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        ))}
+                            <div className='bg-white rounded-xl shadow-sm border border-gray-200 p-6'>
+                                <div className='flex justify-between items-center mb-6'>
+                                    <h2 className='text-2xl font-bold text-gray-900'>My Orders</h2>
+                                    <div className='px-3 py-1 bg-gray-100 text-gray-600 rounded-full text-sm'>
+                                        Total Orders: {orders.length}
                                     </div>
                                 </div>
-                            </div>
-                        )}
-
-                        {/* Wishlist */}
-                        {show === 3 && (
-                            <div className='animate-slideIn'>
-                                <div className='bg-white rounded-2xl shadow-lg border border-black-200 p-6 hover:shadow-xl transition-all duration-300'>
-                                    <div className='flex flex-col md:flex-row justify-between items-start md:items-center mb-6'>
-                                        <h2 className='text-2xl font-bold text-black-900 mb-4 md:mb-0'>My Wishlist</h2>
-                                        <div className='px-4 py-2 bg-gradient-to-br from-pink-700 via-pink-700 to-pink-700 rounded-full'>
-                                            <span className='text-black font-medium'>Items: {wishlist.length}</span>
-                                        </div>
-                                    </div>
-
-                                    <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4'>
-                                        {wishlist.map((item) => (
-                                            <div key={item.id} className='bg-white rounded-xl p-4 border border-black-300 hover:border-pink-700 hover:shadow-lg hover:scale-[1.02] transition-all duration-300 group'>
-                                                <div className='text-center mb-4'>
-                                                    <div className='flex justify-center mb-3 text-3xl'>
-                                                        {item.icon}
-                                                    </div>
-                                                    <h3 className='font-bold text-black-900 group-hover:text-pink-700 transition-colors duration-300'>{item.name}</h3>
-                                                    <p className='text-black-600 text-sm mt-1'>{item.category}</p>
-                                                </div>
-                                                
-                                                <div className='flex justify-between items-center mb-4'>
-                                                    <div className='text-lg font-bold text-black-900'>₹{item.price.toLocaleString()}</div>
-                                                    <div className='flex items-center'>
-                                                        <div className='text-yellow-500'>
-                                                            {"★".repeat(Math.floor(item.rating))}
-                                                            <span className='text-black-300'>{"★".repeat(5-Math.floor(item.rating))}</span>
-                                                        </div>
-                                                        <span className='text-black-600 text-sm ml-2'>({item.reviews})</span>
-                                                    </div>
-                                                </div>
-
-                                                <div className='flex justify-between items-center'>
-                                                    <button 
-                                                        onClick={() => removeFromWishlist(item.id)}
-                                                        className='p-2 hover:text-red-600 transition-colors duration-300 hover:scale-110'
-                                                        title='Remove from wishlist'
-                                                    >
-                                                        <RiDeleteBin5Fill className='text-black' />
-                                                    </button>
-                                                    <button className='flex items-center gap-2 px-3 py-2 bg-gradient-to-br from-pink-700 via-pink-700 to-pink-700 rounded-lg hover:shadow-md transition-all duration-300 hover:scale-105'>
-                                                        <MdShoppingCart className="text-black" />
-                                                        <span className='text-black font-medium text-sm'>Add to Cart</span>
-                                                    </button>
-                                                    <button className='p-2 hover:text-blue-600 transition-colors duration-300 hover:scale-110' title='Share'>
-                                                        <IoShareSocial className='text-black' />
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        ))}
-                                    </div>
-                                </div>
-                            </div>
-                        )}
-
-                        {/* Address */}
-                        {show === 4 && (
-                            <div className='animate-slideIn'>
-                                <div className='bg-white rounded-2xl shadow-lg border border-black-200 p-6 hover:shadow-xl transition-all duration-300'>
-                                    <div className='flex flex-col md:flex-row justify-between items-start md:items-center mb-6'>
-                                        <h2 className='text-2xl font-bold text-black-900 mb-4 md:mb-0'>My Addresses</h2>
-                                        <button className='flex items-center gap-2 px-4 py-2.5 bg-gradient-to-br from-pink-700 via-pink-700 to-pink-700 rounded-xl hover:shadow-lg transition-all duration-300 hover:scale-105'>
-                                            <FaPlus className="text-black" /> Add New Address
+    
+                                {orders.length === 0 ? (
+                                    <div className="text-center py-12">
+                                        <FaBox className="text-5xl text-gray-300 mx-auto mb-3" />
+                                        <p className="text-gray-500">No orders found</p>
+                                        <button 
+                                            onClick={() => navigate('/products')}
+                                            className="mt-4 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700"
+                                        >
+                                            Start Shopping
                                         </button>
                                     </div>
-
-                                    <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
-                                        {addresses.map((addr) => (
-                                            <div 
-                                                key={addr.id} 
-                                                className={`bg-white rounded-xl p-5 border ${
-                                                    addr.isDefault ? 'border-pink-700 shadow-md' : 'border-black-300'
-                                                } hover:border-pink-700 hover:shadow-lg hover:scale-[1.02] transition-all duration-300`}
-                                            >
-                                                <div className='flex justify-between items-start mb-4'>
-                                                    <div className='flex items-center gap-3'>
-                                                        <div className={`p-3 rounded-lg ${
-                                                            addr.isDefault ? 'bg-gradient-to-br from-pink-700 via-pink-700 to-pink-700' : 'bg-black-100'
-                                                        } transition-all duration-300`}>
-                                                            <FaHome className="text-black" />
-                                                        </div>
+                                ) : (
+                                    <div className='space-y-4'>
+                                        {orders.map((order) => {
+                                            const statusInfo = getStatusBadge(order.status, order.isCancelled);
+                                            return (
+                                                <div 
+                                                    key={order._id} 
+                                                    className='border border-gray-200 rounded-lg p-4 hover:shadow-md transition-all cursor-pointer'
+                                                    onClick={() => fetchOrderDetails(order._id)}
+                                                >
+                                                    <div className='flex flex-wrap justify-between items-start mb-3 pb-3 border-b border-gray-100'>
                                                         <div>
-                                                            <h3 className='font-bold text-black-900'>{addr.type}</h3>
-                                                            {addr.isDefault && (
-                                                                <span className='px-3 py-1 bg-gradient-to-br from-pink-700 via-pink-700 to-pink-700 text-black text-sm rounded-full mt-2 inline-block'>Default</span>
+                                                            <p className='text-sm text-gray-500'>Order #{order._id?.slice(-8)}</p>
+                                                            <p className='text-xs text-gray-400'>
+                                                                {new Date(order.createdAt).toLocaleDateString('en-IN', {
+                                                                    day: 'numeric',
+                                                                    month: 'short',
+                                                                    year: 'numeric'
+                                                                })}
+                                                            </p>
+                                                        </div>
+                                                        <div className={`px-3 py-1 rounded-full text-xs font-medium flex items-center gap-1 ${statusInfo.color}`}>
+                                                            <span>{statusInfo.icon}</span>
+                                                            <span>{statusInfo.text}</span>
+                                                        </div>
+                                                    </div>
+    
+                                                    <div className='mb-3'>
+                                                        <div className='flex flex-wrap gap-2'>
+                                                            {order.orderItems?.slice(0, 2).map((item, idx) => (
+                                                                <div key={idx} className='flex items-center gap-2 text-sm'>
+                                                                    <span>{item.name}</span>
+                                                                    <span className='text-gray-400'>x{item.qty}</span>
+                                                                </div>
+                                                            ))}
+                                                            {order.orderItems?.length > 2 && (
+                                                                <span className='text-xs text-gray-400'>+{order.orderItems.length - 2} more</span>
                                                             )}
                                                         </div>
                                                     </div>
-                                                    <div className='flex gap-2'>
-                                                        <button className='p-2 hover:text-blue-600 transition-colors duration-300 hover:scale-110' title='Edit address'>
-                                                            <FaEditIcon className="text-black" />
-                                                        </button>
-                                                        <button 
-                                                            onClick={() => deleteAddress(addr.id)}
-                                                            className='p-2 hover:text-red-600 transition-colors duration-300 hover:scale-110'
-                                                            title='Delete address'
-                                                        >
-                                                            <FaTrash className="text-black" />
+    
+                                                    <div className='flex flex-wrap justify-between items-center pt-3 border-t border-gray-100'>
+                                                        <div className='flex items-center gap-1'>
+                                                            <FaRupeeSign className="text-gray-600 text-sm" />
+                                                            <span className='font-bold text-gray-900'>{order.totalPrice?.toLocaleString()}</span>
+                                                        </div>
+                                                        <button className='text-sm text-red-600 hover:text-red-700'>
+                                                            View Details
                                                         </button>
                                                     </div>
                                                 </div>
-                                                <p className='text-black-700 leading-relaxed'>{addr.address}</p>
+                                            );
+                                        })}
+                                    </div>
+                                )}
+                            </div>
+                        )}
+    
+                        {/* Order Details Modal */}
+                        {showOrderModal && selectedOrder && (
+                            <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4" onClick={() => setShowOrderModal(false)}>
+                                <div className="bg-white rounded-xl max-w-2xl w-full max-h-[80vh] overflow-y-auto p-6" onClick={(e) => e.stopPropagation()}>
+                                    <div className='flex justify-between items-center mb-4 pb-3 border-b'>
+                                        <h3 className='text-xl font-bold text-gray-900'>Order Details</h3>
+                                        <button onClick={() => setShowOrderModal(false)} className='text-gray-400 hover:text-gray-600'>
+                                            <MdCancel size={24} />
+                                        </button>
+                                    </div>
+    
+                                    <div className='space-y-4'>
+                                        <div className='grid grid-cols-2 gap-4 text-sm'>
+                                            <div>
+                                                <p className='text-gray-500'>Order ID</p>
+                                                <p className='font-medium'>{selectedOrder._id}</p>
+                                            </div>
+                                            <div>
+                                                <p className='text-gray-500'>Order Date</p>
+                                                <p className='font-medium'>{formatDate(selectedOrder.createdAt)}</p>
+                                            </div>
+                                            <div>
+                                                <p className='text-gray-500'>Status</p>
+                                                <span className={`inline-block px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(selectedOrder.status)}`}>
+                                                    {selectedOrder.status}
+                                                </span>
+                                            </div>
+                                            <div>
+                                                <p className='text-gray-500'>Payment</p>
+                                                <span className={`inline-block px-2 py-1 rounded-full text-xs font-medium ${getPaymentStatusColor(selectedOrder.isPaid)}`}>
+                                                    {selectedOrder.isPaid ? 'Paid' : 'Pending'}
+                                                </span>
+                                            </div>
+                                        </div>
+    
+                                        {selectedOrder.shippingAddress && (
+                                            <div className='border-t pt-3'>
+                                                <h4 className='font-semibold mb-2'>Shipping Address</h4>
+                                                <p className='text-sm text-gray-600'>
+                                                    {selectedOrder.shippingAddress.street}<br />
+                                                    {selectedOrder.shippingAddress.city}, {selectedOrder.shippingAddress.state}<br />
+                                                    PIN: {selectedOrder.shippingAddress.zipCode}
+                                                </p>
+                                            </div>
+                                        )}
+    
+                                        <div className='border-t pt-3'>
+                                            <h4 className='font-semibold mb-3'>Order Items</h4>
+                                            <div className='space-y-2'>
+                                                {selectedOrder.orderItems?.map((item, idx) => (
+                                                    <div key={idx} className='flex justify-between items-center py-2 border-b border-gray-100'>
+                                                        <div className='flex items-center gap-3'>
+                                                            {item.image && (
+                                                                <img src={item.image} alt={item.name} className='w-12 h-12 object-cover rounded' />
+                                                            )}
+                                                            <div>
+                                                                <p className='font-medium'>{item.name}</p>
+                                                                <p className='text-xs text-gray-500'>Qty: {item.qty}</p>
+                                                            </div>
+                                                        </div>
+                                                        <p className='font-medium'>₹{item.price * item.qty}</p>
+                                                    </div>
+                                                ))}
+                                            </div>
+                                        </div>
+    
+                                        <div className='border-t pt-3'>
+                                            <div className='flex justify-between items-center'>
+                                                <span className='font-bold'>Total Amount</span>
+                                                <span className='text-xl font-bold text-gray-900'>₹{selectedOrder.totalPrice?.toLocaleString()}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        )}
+    
+                        {/* Wishlist */}
+                        {show === 3 && (
+                            <div className='bg-white rounded-xl shadow-sm border border-gray-200 p-6'>
+                                <div className='flex justify-between items-center mb-4'>
+                                    <h2 className='text-2xl font-bold text-gray-900'>My Wishlist</h2>
+                                    <span className='px-3 py-1 bg-gray-100 text-gray-600 rounded-full text-sm'>
+                                        {userProfile.wishlist?.length || 0} items
+                                    </span>
+                                </div>
+                                {!userProfile.wishlist || userProfile.wishlist.length === 0 ? (
+                                    <div className="text-center py-12">
+                                        <FaHeart className="text-5xl text-gray-300 mx-auto mb-3" />
+                                        <p className="text-gray-500">Your wishlist is empty</p>
+                                    </div>
+                                ) : (
+                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                        {userProfile.wishlist.map((item, index) => (
+                                            <div key={index} className="flex items-center justify-between p-4 border rounded-lg hover:shadow-md transition-all">
+                                                <div className="flex items-center gap-3">
+                                                    {item.image && (
+                                                        <img src={item.image} alt={item.name} className="w-16 h-16 object-cover rounded-lg" />
+                                                    )}
+                                                    <div>
+                                                        <p className="font-medium text-gray-900">{item.name}</p>
+                                                        <p className="text-red-600 font-bold">₹{item.price}</p>
+                                                    </div>
+                                                </div>
+                                                <button 
+                                                    onClick={() => removeFromWishlist(item._id)}
+                                                    className="text-red-500 hover:text-red-700 p-2"
+                                                >
+                                                    <FaTrash />
+                                                </button>
+                                            </div>
+                                        ))}
+                                    </div>
+                                )}
+                            </div>
+                        )}
+    
+                        {/* Address Section */}
+                        {show === 4 && (
+                            <div className='bg-white rounded-xl shadow-sm border border-gray-200 p-6'>
+                                <div className='flex justify-between items-center mb-6'>
+                                    <h2 className='text-2xl font-bold text-gray-900'>Saved Addresses</h2>
+                                    <button
+                                        onClick={() => {
+                                            setEditingAddress(null)
+                                            setAddressForm({
+                                                street: "",
+                                                city: "",
+                                                state: "",
+                                                zipCode: "",
+                                                isDefault: false
+                                            })
+                                            setShowAddressForm(true)
+                                        }}
+                                        className='flex items-center gap-2 px-4 py-2 bg-gray-900 text-white rounded-lg hover:bg-gray-800 text-sm'
+                                    >
+                                        <FaPlus /> Add Address
+                                    </button>
+                                </div>
+    
+                                {/* Address Form Modal */}
+                                {showAddressForm && (
+                                    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4" onClick={() => setShowAddressForm(false)}>
+                                        <div className="bg-white rounded-xl max-w-md w-full p-6" onClick={(e) => e.stopPropagation()}>
+                                            <h3 className="text-xl font-bold mb-4">
+                                                {editingAddress ? 'Edit Address' : 'Add New Address'}
+                                            </h3>
+                                            <form onSubmit={editingAddress ? handleUpdateAddress : handleAddAddress} className="space-y-4">
+                                                <div>
+                                                    <label className="block text-sm font-medium mb-1">Street Address</label>
+                                                    <input
+                                                        type="text"
+                                                        value={addressForm.street}
+                                                        onChange={(e) => setAddressForm({...addressForm, street: e.target.value})}
+                                                        className="w-full p-2 border rounded-lg focus:ring-2 focus:ring-gray-900 outline-none"
+                                                        required
+                                                    />
+                                                </div>
+                                                <div>
+                                                    <label className="block text-sm font-medium mb-1">City</label>
+                                                    <input
+                                                        type="text"
+                                                        value={addressForm.city}
+                                                        onChange={(e) => setAddressForm({...addressForm, city: e.target.value})}
+                                                        className="w-full p-2 border rounded-lg focus:ring-2 focus:ring-gray-900 outline-none"
+                                                        required
+                                                    />
+                                                </div>
+                                                <div>
+                                                    <label className="block text-sm font-medium mb-1">State</label>
+                                                    <input
+                                                        type="text"
+                                                        value={addressForm.state}
+                                                        onChange={(e) => setAddressForm({...addressForm, state: e.target.value})}
+                                                        className="w-full p-2 border rounded-lg focus:ring-2 focus:ring-gray-900 outline-none"
+                                                        required
+                                                    />
+                                                </div>
+                                                <div>
+                                                    <label className="block text-sm font-medium mb-1">Zip Code</label>
+                                                    <input
+                                                        type="text"
+                                                        value={addressForm.zipCode}
+                                                        onChange={(e) => setAddressForm({...addressForm, zipCode: e.target.value})}
+                                                        className="w-full p-2 border rounded-lg focus:ring-2 focus:ring-gray-900 outline-none"
+                                                        required
+                                                    />
+                                                </div>
+                                                <div className="flex items-center gap-2">
+                                                    <input
+                                                        type="checkbox"
+                                                        checked={addressForm.isDefault}
+                                                        onChange={(e) => setAddressForm({...addressForm, isDefault: e.target.checked})}
+                                                        className="w-4 h-4"
+                                                    />
+                                                    <label className="text-sm">Set as default address</label>
+                                                </div>
+                                                <div className="flex gap-3 pt-2">
+                                                    <button type="submit" className="flex-1 bg-gray-900 text-white py-2 rounded-lg hover:bg-gray-800">
+                                                        {editingAddress ? 'Update' : 'Save'} Address
+                                                    </button>
+                                                    <button type="button" onClick={() => setShowAddressForm(false)} className="flex-1 bg-gray-100 text-gray-700 py-2 rounded-lg hover:bg-gray-200">
+                                                        Cancel
+                                                    </button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                )}
+    
+                                {/* Addresses List */}
+                                {!addresses || addresses.length === 0 ? (
+                                    <div className="text-center py-12">
+                                        <FaHome className="text-5xl text-gray-300 mx-auto mb-3" />
+                                        <p className="text-gray-500">No addresses saved</p>
+                                        <p className="text-gray-400 text-sm mt-1">Click "Add Address" to add your first address</p>
+                                    </div>
+                                ) : (
+                                    <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
+                                        {addresses.map((addr) => (
+                                            <div 
+                                                key={addr._id} 
+                                                className={`border rounded-lg p-4 transition-all ${
+                                                    addr.isDefault ? 'border-gray-900 bg-gray-50' : 'border-gray-200'
+                                                }`}
+                                            >
+                                                <div className='flex justify-between items-start mb-3'>
+                                                    <div className='flex items-center gap-2'>
+                                                        <FaHome className="text-gray-600" />
+                                                        {addr.isDefault && (
+                                                            <span className='px-2 py-0.5 bg-gray-900 text-white text-xs rounded-full'>Default</span>
+                                                        )}
+                                                    </div>
+                                                    <div className='flex gap-2'>
+                                                        <button 
+                                                            onClick={() => editAddress(addr)}
+                                                            className='p-1 text-gray-500 hover:text-gray-900 transition-colors'
+                                                            title='Edit'
+                                                        >
+                                                            <FaEdit size={14} />
+                                                        </button>
+                                                        <button 
+                                                            onClick={() => handleDeleteAddress(addr._id)}
+                                                            className='p-1 text-gray-500 hover:text-red-600 transition-colors'
+                                                            title='Delete'
+                                                        >
+                                                            <FaTrash size={14} />
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                                <div className='space-y-1 text-sm'>
+                                                    <p className='text-gray-800'>{addr.street}</p>
+                                                    <p className='text-gray-600'>{addr.city}, {addr.state}</p>
+                                                    <p className='text-gray-600'>PIN: {addr.zipCode}</p>
+                                                </div>
                                                 {!addr.isDefault && (
                                                     <button 
-                                                        onClick={() => setDefaultAddress(addr.id)}
-                                                        className='mt-4 text-sm text-black-600 hover:text-pink-700 transition-colors duration-300 hover:scale-105 inline-block'
+                                                        onClick={() => handleSetDefault(addr._id)}
+                                                        className='mt-3 text-xs text-gray-500 hover:text-gray-900 flex items-center gap-1 transition-colors'
                                                     >
-                                                        Set as default →
+                                                        <FaCheck size={10} /> Set as default
                                                     </button>
                                                 )}
                                             </div>
                                         ))}
                                     </div>
+                                )}
+                            </div>
+                        )}
+    
+                        {/* Coming Soon Sections */}
+                        {show === 5 && (
+                            <div className='bg-white rounded-xl shadow-sm border border-gray-200 p-8 text-center'>
+                                <div className="py-12">
+                                    <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                                        <FaCcAmazonPay className="text-2xl text-gray-600" />
+                                    </div>
+                                    <h3 className="text-xl font-semibold text-gray-900 mb-2">Payment Methods</h3>
+                                    <p className="text-gray-500">This feature will be available soon</p>
                                 </div>
                             </div>
                         )}
-
-                        {/* Coming Soon Sections */}
-                        {[5, 6, 7].includes(show) && (
-                            <div className='animate-slideIn'>
-                                <div className='bg-white rounded-2xl shadow-lg border border-black-200 p-8 text-center hover:shadow-xl transition-all duration-300'>
-                                    <div className='max-w-md mx-auto'>
-                                        <div className='w-20 h-20 rounded-full bg-gradient-to-br from-pink-700 via-pink-700 to-pink-700 flex items-center justify-center mx-auto mb-6 animate-pulse'>
-                                            {show === 5 && <FaCcAmazonPay className='text-3xl text-black' />}
-                                            {show === 6 && <FaLockOpen className='text-3xl text-black' />}
-                                            {show === 7 && <IoSettingsSharp className='text-3xl text-black' />}
-                                        </div>
-                                        <h3 className='text-2xl font-bold text-black-900 mb-3'>
-                                            {show === 5 && 'Payment Management'}
-                                            {show === 6 && 'Security Settings'}
-                                            {show === 7 && 'Account Settings'}
-                                        </h3>
-                                        <p className='text-black-600 mb-6'>
-                                            This section is under development and will be available soon with exciting features!
-                                        </p>
-                                        <button className='inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-br from-pink-700 via-pink-700 to-pink-700 rounded-xl hover:shadow-lg transition-all duration-300 hover:scale-105'>
-                                            <FaBell className="text-black" />
-                                            <span className='text-black font-medium'>Notify Me When Ready</span>
-                                        </button>
+    
+                        {show === 6 && (
+                            <div className='bg-white rounded-xl shadow-sm border border-gray-200 p-8 text-center'>
+                                <div className="py-12">
+                                    <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                                        <AiFillSecurityScan className="text-2xl text-gray-600" />
                                     </div>
+                                    <h3 className="text-xl font-semibold text-gray-900 mb-2">Security Settings</h3>
+                                    <p className="text-gray-500">This feature will be available soon</p>
+                                </div>
+                            </div>
+                        )}
+    
+                        {show === 7 && (
+                            <div className='bg-white rounded-xl shadow-sm border border-gray-200 p-8 text-center'>
+                                <div className="py-12">
+                                    <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                                        <IoSettings className="text-2xl text-gray-600" />
+                                    </div>
+                                    <h3 className="text-xl font-semibold text-gray-900 mb-2">App Settings</h3>
+                                    <p className="text-gray-500">This feature will be available soon</p>
                                 </div>
                             </div>
                         )}
                     </div>
                 </div>
             </div>
-
-            {/* Add smooth animations */}
-            <style jsx>{`
-                @keyframes fadeIn {
-                    from {
-                        opacity: 0;
-                        transform: translateY(20px);
-                    }
-                    to {
-                        opacity: 1;
-                        transform: translateY(0);
-                    }
-                }
-
-                @keyframes slideIn {
-                    from {
-                        opacity: 0;
-                        transform: translateX(30px);
-                    }
-                    to {
-                        opacity: 1;
-                        transform: translateX(0);
-                    }
-                }
-
-                .animate-fadeIn {
-                    animation: fadeIn 0.6s ease-out;
-                }
-
-                .animate-slideIn {
-                    animation: slideIn 0.4s ease-out;
-                }
-
-                /* Smooth scrolling for the whole page */
-                html {
-                    scroll-behavior: smooth;
-                }
-            `}</style>
         </div>
     )
 }
-
+    
 export default Profile

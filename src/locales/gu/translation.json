@@ -1,0 +1,87 @@
+{
+  "nav": {
+    "home": "હોમ",
+    "cookware": "કુકવેર",
+    "serveware": "સર્વવેર",
+    "essentials": "રસોડાની જરૂરી વસ્તુઓ",
+    "deals": "ઑફર્સ",
+    "gifting": "કોર્પોરેટ ગિફ્ટિંગ",
+    "wishlist": "વિશલિસ્ટ",
+    "cart": "કાર્ટ",
+    "signin": "સાઇન ઇન",
+    "logout": "લોગઆઉટ",
+    "profile": "મારી પ્રોફાઇલ",
+    "admin": "એડમિન પેનલ"
+  },
+  "common": {
+    "search": "ઉત્પાદનો શોધો...",
+    "addToCart": "ઉમેરો",
+    "buyNow": "હમણાં ખરીદો",
+    "outOfStock": "સ્ટોક સમાપ્ત",
+    "lowStock": "ફક્ત {{stock}} બાકી!",
+    "price": "કિંમત",
+    "quantity": "જથ્થો",
+    "total": "કુલ",
+    "checkout": "ચેકઆઉટ",
+    "placeOrder": "ઓર્ડર કરો",
+    "continueShopping": "શોપિંગ ચાલુ રાખો",
+    "loading": "લોડ થઈ રહ્યું છે...",
+    "noProducts": "કોઈ ઉત્પાદન મળ્યું નથી",
+    "clearFilters": "બધા ફિલ્ટર સાફ કરો"
+  },
+  "product": {
+    "ourProducts": "અમારા ઉત્પાદનો",
+    "description": "વર્ણન",
+    "reviews": "ગ્રાહક સમીક્ષાઓ",
+    "writeReview": "સમીક્ષા લખો",
+    "rating": "તમારું રેટિંગ",
+    "yourReview": "તમારી સમીક્ષા",
+    "submitReview": "સમીક્ષા સબમિટ કરો",
+    "relatedProducts": "સંબંધિત ઉત્પાદનો",
+    "addToBag": "બેગમાં ઉમેરો"
+  },
+  "cart": {
+    "title": "શોપિંગ કાર્ટ",
+    "empty": "તમારી કાર્ટ ખાલી છે",
+    "subtotal": "સબટોટલ",
+    "shipping": "શિપિંગ",
+    "free": "મફત",
+    "proceed": "ચેકઆઉટ પર જાઓ",
+    "remove": "દૂર કરો"
+  },
+  "checkout": {
+    "title": "ચેકઆઉટ",
+    "shippingAddress": "શિપિંગ સરનામું",
+    "addNewAddress": "નવું સરનામું ઉમેરો",
+    "paymentMethod": "ચુકવણી પદ્ધતિ",
+    "orderSummary": "ઓર્ડર સારાંશ",
+    "placeOrder": "ઓર્ડર કરો",
+    "applyCoupon": "લાગુ કરો",
+    "couponCode": "કૂપન કોડ"
+  },
+  "profile": {
+    "myAccount": "મારું ખાતું",
+    "profileInfo": "પ્રોફાઇલ માહિતી",
+    "orders": "મારા ઓર્ડર",
+    "addresses": "સાચવેલ સરનામાં",
+    "editProfile": "પ્રોફાઇલ સંપાદિત કરો",
+    "saveChanges": "ફેરફારો સાચવો",
+    "cancel": "રદ કરો",
+    "fullName": "પૂરું નામ",
+    "email": "ઇમેઇલ સરનામું",
+    "phone": "ફોન નંબર",
+    "memberSince": "સભ્યપદથી"
+  },
+  "order": {
+    "orderId": "ઓર્ડર ID",
+    "orderDate": "ઓર્ડર તારીખ",
+    "status": "સ્થિતિ",
+    "payment": "ચુકવણી",
+    "paid": "ચૂકવણી થઈ",
+    "pending": "બાકી",
+    "processing": "પ્રોસેસિંગ",
+    "shipped": "શિપ થયું",
+    "delivered": "ડિલિવર થયું",
+    "cancelled": "રદ થયું"
+  }
+}

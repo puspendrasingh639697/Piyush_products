@@ -1,169 +1,127 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { FaBolt, FaCheckCircle } from "react-icons/fa"; 
 
-export default function OrderSumary({ formData, setFormData, card, setCard }) {
+const OrderSumary = ({ formData, cartItems }) => {
+  const navigate = useNavigate();
 
-  // 🔒 SAFETY GUARD (UI level only)
-  if (!card || card.length === 0) {
-    return (
-      <div className="min-h-screen bg-white flex items-center justify-center">
-        <p className="text-black-500 text-lg">Loading order summary...</p>
-      </div>
-    );
-  }
+  // Price calculation logic: Saare items ka total jodna
+  const calculateTotal = () => {
+    return cartItems.reduce((acc, item) => {
+      // Comma hatane ke liye check
+      const priceStr = item.price ? item.price.toString().replace(/,/g, "") : "0";
+      return acc + parseInt(priceStr);
+    }, 0);
+  };
 
   return (
-    <div className="min-h-screen bg-white py-10 px-4">
-
-      <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-6">
-
-        {/* LEFT */}
-        <div className="lg:col-span-2 space-y-6">
-
-          {/* Address */}
-          <div className="bg-white p-6 rounded-lg border border-black-300 shadow-lg">
-            <h3 className="text-lg font-semibold bg-gradient-to-r from-pink-700 to-pink-900 bg-clip-text text-transparent mb-4">
-              Delivery Address
-            </h3>
-
-            <div className="flex justify-between items-start">
-              <div>
-                <p className="text-sm font-medium text-black">
-                  {formData?.name || "Customer Name"}
-                  <span className="ml-2 text-xs bg-black-200 px-2 py-0.5 rounded text-black">
-                    HOME
-                  </span>
-                </p>
-
-                <p className="text-sm text-black-700 mt-1">
-                  {formData?.mobile || "XXXXXXXXXX"}
-                </p>
-                 <p className="text-sm text-black-700 mt-1">
-                  {formData?.address || "XXXXXXXXXX"}
-                </p>
-                 <p className="text-sm text-black-700 mt-1">
-                  {formData?.city || "XXXXXXXXXX"}
-                </p>
-              </div>
-
-              <Link to = {"/addDeliveryAddress"} className="text-pink-700 text-sm font-semibold hover:underline">
-                Change
-              </Link>
+    <div className="min-h-screen bg-gray-50 pt-32 pb-10 px-4">
+      <div className="max-w-6xl mx-auto grid md:grid-cols-3 gap-6">
+        
+        {/* LEFT: Address & Products */}
+        <div className="md:col-span-2 space-y-4">
+          
+          {/* 1. Address Section */}
+          <div className="bg-white p-5 shadow-sm border rounded-sm">
+            <h2 className="text-blue-600 font-bold flex items-center gap-2 mb-3 uppercase text-sm">
+              <FaCheckCircle /> Delivery Address
+            </h2>
+            <div className="text-sm">
+              <p className="font-bold">
+                {formData.name} 
+                <span className="bg-gray-100 px-2 py-0.5 rounded text-[10px] ml-2 uppercase border">
+                   {formData.addressType || "HOME"}
+                </span>
+              </p>
+              <p className="text-gray-600 mt-1">
+                {formData.address}, {formData.area}, {formData.city}, {formData.state} - {formData.pincode}
+              </p>
+              <p className="font-bold mt-2">Mobile: {formData.mobile}</p>
             </div>
           </div>
 
-          {/* Product */}
-          <div className="bg-white p-6 rounded-lg border border-black-300 shadow-lg">
-            <h3 className="text-lg font-semibold bg-gradient-to-r from-pink-700 to-pink-900 bg-clip-text text-transparent mb-5">
-              Product Details
-            </h3>
-
-            <div className="flex gap-6">
-              <img
-                src={card?.[0]?.image}
-                alt="product"
-                className="w-32 h-32 object-cover rounded border border-black-400"
-              />
-
-              <div className="flex-1">
-                <p className="font-medium text-black mb-2">
-                  {card?.[0]?.title}
-                </p>
-
-                <div className="flex items-center gap-2 mb-2">
-                  <span className="bg-green-600 text-white text-xs px-2 py-0.5 rounded">
-                    4.4 ★
-                  </span>
-                  <span className="text-xs text-black-600">
-                    (2,839 ratings)
-                  </span>
-                </div>
-
-                <div className="flex items-center gap-3 mb-2">
-                  <span className="text-xl font-bold text-black">
-                    ₹{card?.[0]?.price}
-                  </span>
-                  <span className="text-sm line-through text-black-500">
-                    ₹799
-                  </span>
-                  <span className="text-sm text-green-600 font-semibold">
-                    64% off
-                  </span>
-                </div>
-
-                <p className="text-sm text-black-700">
-                  Delivery by <span className="font-medium text-black">Oct 15</span> | FREE
-                </p>
-              </div>
+          {/* 2. Product Items Section */}
+          <div className="bg-white shadow-sm border rounded-sm overflow-hidden">
+            <div className="p-4 border-b bg-gray-50">
+              <h3 className="font-bold text-gray-700">Order Items ({cartItems.length})</h3>
             </div>
-          </div>
-
-          {/* Donation */}
-          <div className="bg-white p-6 rounded-lg border border-black-300 shadow-lg">
-            <h3 className="text-lg font-semibold bg-gradient-to-r from-pink-700 to-pink-900 bg-clip-text text-transparent mb-4">
-              Donate to Ram Cosmetic
-            </h3>
-
-            <div className="flex gap-3">
-              {[10, 20, 50, 100].map((amt) => (
-                <button
-                  key={amt}
-                  className="px-4 py-2 border border-black-400 rounded text-black
-                  hover:border-pink-700 hover:text-pink-700 hover:shadow-md transition"
-                >
-                  ₹{amt}
-                </button>
-              ))}
+            
+            <div className="divide-y">
+              {cartItems && cartItems.length > 0 ? (
+                cartItems.map((item, index) => (
+                  <div key={index} className="flex items-center gap-4 py-4 px-4">
+                    {/* Image handling with backup keys */}
+                    <div className="w-20 h-20 border flex-shrink-0 bg-white p-1">
+                      <img 
+                        src={item.image || item.img} 
+                        alt={item.title || item.name} 
+                        className="w-full h-full object-contain"
+                        onError={(e) => { e.target.src = "https://via.placeholder.com/150"; }} 
+                      />
+                    </div>
+                    <div className="flex-1">
+                       <p className="text-sm font-medium text-gray-800">{item.title || item.name}</p>
+                       <p className="font-bold text-lg mt-1">₹{item.price}</p>
+                    </div>
+                  </div>
+                ))
+              ) : (
+                <div className="p-10 text-center text-gray-400">Your cart is empty!</div>
+              )}
             </div>
           </div>
         </div>
 
-        {/* RIGHT */}
-        <div className="bg-white p-6 rounded-lg border border-black-300 shadow-lg h-fit sticky top-24">
-
-          <h3 className="text-lg font-semibold bg-gradient-to-r from-pink-700 to-pink-900 bg-clip-text text-transparent mb-5">
-            Price Details
-          </h3>
-
-          <div className="space-y-3 text-sm text-black-700">
-            <div className="flex justify-between">
-              <span>Price (1 item)</span>
-              <span className="text-black">₹{card?.[0]?.price}</span>
+        {/* RIGHT: Price Details & Payment Button */}
+        <div className="h-fit">
+          <div className="bg-white p-5 shadow-sm border rounded-sm sticky top-32">
+            <h2 className="text-gray-400 font-bold text-xs uppercase border-b pb-2 mb-4 tracking-widest">Price Details</h2>
+            <div className="space-y-3 text-sm">
+              <div className="flex justify-between">
+                <span>Price ({cartItems.length} items)</span>
+                <span>₹{calculateTotal().toLocaleString()}</span>
+              </div>
+              <div className="flex justify-between text-green-600 font-medium">
+                <span>Delivery Charges</span>
+                <span>FREE</span>
+              </div>
+              <hr className="border-dashed" />
+              <div className="pt-1 flex justify-between text-lg font-black">
+                <span>Total Amount</span>
+                <span>₹{calculateTotal().toLocaleString()}</span>
+              </div>
             </div>
 
-            <div className="flex justify-between">
-              <span>Discount</span>
-              <span className="text-green-600">− ₹5</span>
-            </div>
-
-            <div className="flex justify-between">
-              <span>Delivery Charges</span>
-              <span className="text-green-600">FREE</span>
-            </div>
+            {/* Proceed to Payment Button */}
+            // OrderSumary.jsx ke andar ka button logic
+<button 
+  onClick={() => {
+    // 1. Pehle cart ka data localStorage mein daalo Checkout page ke liye
+    // Hum sirf pehla item bhej rahe hain kyunki Checkout single product logic par hai
+    if(cartItems.length > 0) {
+      const itemToBuy = {
+        product: cartItems[0], // Pehla product
+        quantity: 1
+      };
+      localStorage.setItem('checkoutItem', JSON.stringify(itemToBuy));
+      
+      // 2. Ab Checkout page par bhejo
+      navigate('/checkout');
+    }
+  }}
+  className="w-full mt-6 bg-[#fb641b] text-white py-3 font-bold uppercase rounded-sm shadow hover:bg-[#f4510b] transition-all flex items-center justify-center gap-2"
+>
+  <FaBolt /> Proceed to Payment
+</button>
+            <p className="text-[10px] text-gray-500 mt-3 text-center">
+              Safe and Secure Payments. 100% Authentic products.
+            </p>
           </div>
-
-          <div className="border-t border-black-300 my-4"></div>
-
-          <div className="flex justify-between font-semibold text-lg text-black">
-            <span>Total Amount</span>
-            <span>₹{(card?.[0]?.price || 0) + 5}</span>
-          </div>
-
-          <p className="text-sm text-green-600 mt-2">
-            You will save ₹{(card?.[0]?.price || 0) + 5} on this order
-          </p>
-
-          <Link
-            to="/payment"
-            className="block mt-6 text-center 
-            bg-gradient-to-r from-pink-700 to-pink-900
-            hover:shadow-lg text-white font-semibold py-3 rounded transition-all"
-          >
-            Continue to Payment
-          </Link>
         </div>
 
       </div>
     </div>
   );
-}
+};
+
+export default OrderSumary;
