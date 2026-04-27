@@ -375,7 +375,7 @@ import MyAccount from './Page/MyAccount';
 import WishList from './Page/WishList';
 import ScrollToTop from "./Component/ScrollToTop";
 import AddDeliveryAddress from './Page/AddDeliveryAddress';
-import Payment from './Page/Payment';
+// import Payment from './Page/Payment';
 import OrderSumary from './Page/OrderSumary';
 import CategoryPage from './OurProduct/CategoryPage';
 import ProductDetail from './OurProduct/ProductDetail';
@@ -470,7 +470,7 @@ const AppContent = () => {
         <Route path="/order/:orderId" element={<OrderDetails />} />
         
         {/* Payment Routes */}
-        <Route path='/payment' element={<Payment card={card} setCard={setCard} />} />
+        {/* <Route path='/payment' element={<Payment card={card} setCard={setCard} />} /> */}
         <Route path="/checkout" element={<Checkout />} />
         <Route path="/success" element={<SuccessPage />} />
         
