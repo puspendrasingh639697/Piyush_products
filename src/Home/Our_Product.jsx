@@ -331,7 +331,7 @@ const Our_Product = ({ onCartUpdate }) => {
                 <div className="p-5 pt-0 flex flex-row gap-2">
                   <button
                     onClick={() => addToCart(item)}
-                    className="flex-1 bg-[#FFD200] text-black py-3 text-[12px] font-bold rounded-lg flex items-center justify-center gap-1 hover:bg-black hover:text-white transition-all duration-300 cursor-pointer"
+                    className="flex-1 bg-[#8B1E2D] text-black py-3 text-[12px] font-bold rounded-lg flex items-center justify-center gap-1 hover:bg-black hover:text-white transition-all duration-300 cursor-pointer"
                   >
                     <FaShoppingCart size={12} /> ADD
                   </button>
@@ -363,3 +363,5 @@ const Our_Product = ({ onCartUpdate }) => {
 };
 
 export default Our_Product;
+
+
