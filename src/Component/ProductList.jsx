@@ -830,11 +830,11 @@ const ProductList = ({ onCartUpdate }) => {
           <div className="flex justify-end">
             <button
               onClick={() => setShowFilters(!showFilters)}
-              className="flex items-center gap-2 px-6 py-3 bg-gray-200 rounded-lg hover:bg-gray-300 transition"
+              className="flex items-center gap-2 px-6 py-3 bg-[#8B1E2D] rounded-lg hover:bg-gray-300 transition"
             >
-              <FaFilter /> Filters
+              <FaFilter className="text-white"/> <span className="text-white">Filters</span>
               {(selectedCategory || sortBy !== '') && (
-                <span className="ml-1 px-2 py-0.5 bg-red-500 text-white text-xs rounded-full">
+                <span className="ml-1 px-2 py-0.5 bg-[#8B1E2D] text-white text-xs rounded-full">
                   {[selectedCategory && '1', sortBy && '1'].filter(Boolean).length}
                 </span>
               )}
@@ -843,7 +843,7 @@ const ProductList = ({ onCartUpdate }) => {
             {(searchKeyword || selectedCategory || sortBy) && (
               <button
                 onClick={resetFilters}
-                className="ml-4 px-6 py-3 bg-gray-500 text-white rounded-lg hover:bg-gray-600 transition"
+                className="ml-4 px-6 py-3 bg-[#8B1E2D] text-white rounded-lg hover:bg-gray-600 transition"
               >
                 Clear All
               </button>
@@ -860,13 +860,13 @@ const ProductList = ({ onCartUpdate }) => {
               exit={{ opacity: 0, height: 0 }}
               className="max-w-[1400px] mx-auto px-6 mb-6 overflow-hidden"
             >
-              <div className="bg-white rounded-lg shadow-md p-6 border border-gray-200">
+              <div className="bg-[#8B1E2D] rounded-lg shadow-md p-6 border border-gray-200">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   
                   {/* Category Filter */}
                   <div>
                     <h3 className="font-semibold text-gray-900 mb-3 flex items-center gap-2">
-                      <FaFilter className="text-red-500" /> Categories
+                      <FaFilter className="text-white" /> <span className="text-white">Categories</span>
                     </h3>
                     <div className="flex flex-wrap gap-2">
                       {categories.map((cat) => (
@@ -875,7 +875,7 @@ const ProductList = ({ onCartUpdate }) => {
                           onClick={() => setSelectedCategory(cat === 'all' ? '' : cat)}
                           className={`px-4 py-2 rounded-full text-sm transition-all ${
                             (cat === 'all' && !selectedCategory) || selectedCategory === cat
-                              ? 'bg-red-600 text-white'
+                              ? 'bg-[] text-white'
                               : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
                           }`}
                         >
@@ -888,7 +888,7 @@ const ProductList = ({ onCartUpdate }) => {
                   {/* Sort Options */}
                   <div>
                     <h3 className="font-semibold text-gray-900 mb-3 flex items-center gap-2">
-                      <FaSort className="text-red-500" /> Sort By
+                      <FaSort className="text-white" /> <span className="text-white">Sort By</span>
                     </h3>
                     <div className="flex flex-wrap gap-2">
                       <button
@@ -984,16 +984,8 @@ const ProductList = ({ onCartUpdate }) => {
                     )}
                   </button>
 
-                  {/* Quick View Button */}
-                  <button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      addModals(item._id);
-                    }}
-                    className="absolute bottom-2 right-2 p-2 bg-white rounded-full shadow-md hover:bg-black hover:text-white transition-colors z-10"
-                  >
-                    <FaEye size={14}/>
-                  </button>
+                  
+                  
                 </div>
 
                 <div className="p-5 flex-grow">

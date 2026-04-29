@@ -10,6 +10,7 @@ import contentReducer from './slices/contentSlice';
 import reviewReducer from './slices/reviewSlice';
 import wishlistReducer from './slices/wishlistSlice';
 import notificationReducer from './slices/notificationSlice';
+import couponReducer from "./slices/couponSlice"; 
  // ✅ Add this
 
 export const store = configureStore({
@@ -23,6 +24,7 @@ export const store = configureStore({
       reviews: reviewReducer, 
       wishlist: wishlistReducer,
       notifications: notificationReducer,
+      coupon: couponReducer,
       // ✅ Add this
   },
 });
