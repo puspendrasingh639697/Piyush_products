@@ -1153,7 +1153,7 @@
 
 // export default Checkout;
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { fetchCart, clearCart } from '../redux/slices/cartSlice';
@@ -1171,6 +1171,7 @@ import {
 
 const PRIMARY_COLOR = '#8B1E2D';
 const PRIMARY_DARK = '#6B1622';
+
 
 const Checkout = () => {
   const dispatch = useDispatch();
@@ -1195,6 +1196,7 @@ const Checkout = () => {
   const items = reduxItems?.length > 0 ? reduxItems : localCartItems;
   const totalAmount = reduxTotal > 0 ? reduxTotal : localTotalAmount;
   const totalItems = reduxTotalItems > 0 ? reduxTotalItems : localTotalItems;
+  
   
   const [selectedAddress, setSelectedAddress] = useState(null);
   const [paymentMethod, setPaymentMethod] = useState('cod');
@@ -1269,36 +1271,48 @@ const Checkout = () => {
     }
   }, [addresses, selectedAddress]);
 
-  const handleApplyCoupon = async () => {
+const handleApplyCoupon = async () => {
+    console.log("Coupon code before send:", couponCode);
+    console.log("Total amount:", totalAmount);
+    
     if (!couponCode.trim()) {
-      setCouponError("Please enter coupon code");
-      toast.error('Please enter coupon code');
-      return;
+        setCouponError("Please enter coupon code");
+        toast.error('Please enter coupon code');
+        return;
     }
     
     setCouponError("");
     
     try {
-      const result = await dispatch(applyCoupon({ 
-        couponCode: couponCode, 
-        totalAmount: totalAmount 
-      })).unwrap();
-      
-      setDiscount(result.discountAmount);
-      setFinalAmount(result.finalAmount);
-      setCouponCode('');
-      toast.success(`Coupon applied! You saved ₹${result.discountAmount}`);
-      
-      localStorage.setItem('appliedCoupon', JSON.stringify({
-        code: couponCode,
-        discountAmount: result.discountAmount
-      }));
-      
+        const result = await dispatch(applyCoupon({ 
+            couponCode: couponCode, 
+            totalAmount: totalAmount 
+        })).unwrap();
+        
+        console.log("API Response:", result);
+        
+        // ✅ YE LINES IMPORTANT HAIN — discount set karna
+        if (result && result.success) {
+            setDiscount(result.discountAmount);
+            setFinalAmount(result.finalAmount);
+            setCouponCode('');
+            toast.success(`Coupon applied! You saved ₹${result.discountAmount}`);
+            
+            localStorage.setItem('appliedCoupon', JSON.stringify({
+                code: couponCode,
+                discountAmount: result.discountAmount
+            }));
+        } else {
+            setCouponError(result?.message || "Invalid coupon code");
+            toast.error(result?.message || "Invalid coupon code");
+        }
+        
     } catch (err) {
-      setCouponError(err);
-      toast.error(err);
+        console.error("Coupon error:", err);
+        setCouponError(err?.message || "Failed to apply coupon");
+        toast.error(err?.message || "Failed to apply coupon");
     }
-  };
+};
 
   const handleRemoveCoupon = () => {
     dispatch(clearAppliedCoupon());
@@ -1713,32 +1727,32 @@ const Checkout = () => {
                   </div>
                 ) : (
                   <div>
-                    <div className="flex gap-2">
-                      <div className="flex-1 relative">
-                        <FaTag className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
-                        <input
-                          type="text"
-                          placeholder="Enter coupon code"
-                          value={couponCode}
-                          onChange={(e) => {
-                            setCouponCode(e.target.value.toUpperCase());
-                            setCouponError("");
-                          }}
-                          className="w-full pl-9 pr-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 text-sm"
-                          style={{ focusRingColor: PRIMARY_COLOR }}
-                        />
-                      </div>
-                      <button
-                        onClick={handleApplyCoupon}
-                        disabled={couponLoading || !couponCode}
-                        className="px-4 py-2 rounded-lg text-white text-sm transition disabled:opacity-50"
-                        style={{ backgroundColor: PRIMARY_COLOR }}
-                        onMouseEnter={(e) => e.target.style.backgroundColor = PRIMARY_DARK}
-                        onMouseLeave={(e) => e.target.style.backgroundColor = PRIMARY_COLOR}
-                      >
-                        {couponLoading ? "..." : "Apply"}
-                      </button>
-                    </div>
+                   <div className="flex gap-2">
+  <div className="flex-1 relative">
+    <FaTag className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
+    <input
+      type="text"
+      placeholder="Enter coupon code"
+      value={couponCode}
+      onChange={(e) => {
+        const value = e.target.value || '';
+        setCouponCode(value.toUpperCase());
+        setCouponError("");
+      }}
+      className="w-full pl-9 pr-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 text-sm"
+    />
+  </div>
+  <button
+    onClick={handleApplyCoupon}
+    disabled={couponLoading || !couponCode}
+    className="px-4 py-2 rounded-lg text-white text-sm transition disabled:opacity-50"
+    style={{ backgroundColor: PRIMARY_COLOR }}
+    onMouseEnter={(e) => e.target.style.backgroundColor = PRIMARY_DARK}
+    onMouseLeave={(e) => e.target.style.backgroundColor = PRIMARY_COLOR}
+  >
+    {couponLoading ? "..." : "Apply"}
+  </button>
+</div>
                     {couponError && (
                       <p className="text-red-500 text-xs mt-1 flex items-center gap-1">
                         <FaTimesCircle size={10} /> {couponError}

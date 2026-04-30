@@ -21,6 +21,7 @@ const handleLogin = async (e) => {
         const data = response.data; // Backend response yahan hai
         
         console.log("🔵 Full Login Response:", data);
+        console.log(localStorage.getItem('token'));
 
         // 2. Data direct data se uthao (Kyunki backend mein 'user' object nahi hai)
         const userRole = data?.role || "user";
