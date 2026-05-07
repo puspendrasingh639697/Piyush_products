@@ -49,7 +49,7 @@ const Get_Glowing = () => {
               </h3>
               <p className="text-[10px] text-black font-bold mb-4">DEC 24, 2024</p>
               <p className="text-black text-sm leading-relaxed line-clamp-2">
-                Christmas is a time of joy, celebration, and creating lasting memories with loved ones...
+                Summer-ready cookware crafted for effortless outdoor dining, quick meals, vibrant flavors, and durable performance—perfect for sunny gatherings and fresh seasonal cooking
               </p>
               
             </div>
