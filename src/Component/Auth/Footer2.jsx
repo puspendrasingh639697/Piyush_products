@@ -241,7 +241,7 @@ const Footer = () => {
             </h3>
 
             <p className="text-sm leading-7 text-black">
-              Our company <span className="font-bold">Puspendra</span> has been a leader in the beauty industry for years. We provide the best quality range of authentic skincare, professional makeup, and luxury beauty essentials.
+           Moradabad, Uttar Pradesh, 244001
             </p>
 
             {/* SOCIAL ICONS - Color #8B1E2D */}
@@ -307,7 +307,7 @@ const Footer = () => {
             <p className="text-sm">
               Call us at: <br />
               <span className="text-lg font-bold" style={{ color: '#8B1E2D' }}>
-                +9155655655656
+                6396976781
               </span>
             </p>
 
