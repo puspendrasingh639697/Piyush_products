@@ -240,7 +240,7 @@ const Privacy = () => {
             <p>For questions about this Privacy Policy or privacy requests, please contact:</p>
             <div className="text-sm space-y-1 text-gray-700 font-medium">
               <p className="text-base font-bold" style={{ color: '#8B1E2D' }}>TheLootBazar by Naivedyam Enterprises</p>
-              <p>Email: <a href="mailto:info@thelootbazaar.com" className="hover:underline text-blue-600">info@thelootbazaar.com</a></p>
+              <p>Email: <a href="mailto:https://thelootbazaar.vercel.app" className="hover:underline text-blue-600">info@https://thelootbazaar.vercel.app/</a></p>
               <p>Phone: <a href="tel:8368925010" className="hover:underline text-gray-900">8368925010</a></p>
               <p className="text-xs text-gray-500 pt-1">
                 Address: 2, D-115, Shyam Park Extension, Sahibabad, Ghaziabad, Uttar Pradesh 201005

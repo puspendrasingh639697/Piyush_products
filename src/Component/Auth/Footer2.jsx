@@ -545,7 +545,7 @@ const Footer = () => {
                 { Icon: FaFacebookF, url: "#" },
                 { Icon: FaInstagram, url: "#" },
                 { Icon: FaTwitter, url: "#" },
-                { Icon: FaEnvelope, url: "mailto:info@thelootbazaar.com" },
+                { Icon: FaEnvelope, url: "mailto:https://thelootbazaar.vercel.app" },
                 { Icon: FaLinkedinIn, url: "#" }
               ].map((item, i) => (
                 <a
