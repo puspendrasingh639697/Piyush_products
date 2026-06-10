@@ -72,7 +72,7 @@ const Terms = () => {
             Welcome to The Loot Bazaar
           </p>
           <p>
-            Welcome to The Loot Bazaar, a unit of <strong className="text-gray-900">Naivaidyam Enterprises</strong>. These Terms and Conditions govern your use of our website, products, and services available through our online store <a href="https://www.thelootbazaar.com" className="font-medium hover:underline" style={{ color: '#8B1E2D' }}>www.thelootbazaar.com</a>.
+            Welcome to The Loot Bazaar, a unit of <strong className="text-gray-900">Naivaidyam Enterprises</strong>. These Terms and Conditions govern your use of our website, products, and services available through our online store <a href="https://thelootbazaar.vercel.app" className="font-medium hover:underline" style={{ color: '#8B1E2D' }}>https://thelootbazaar.vercel.app</a>.
           </p>
           <p>
             By accessing our Site or purchasing products from us, you agree to comply with and be bound by these Terms. Please read them carefully before using our services.
@@ -232,7 +232,7 @@ const Terms = () => {
             <div className="text-sm space-y-1 text-gray-700 font-medium">
               <p className="text-base font-bold" style={{ color: '#8B1E2D' }}>Naivaidyam Enterprises</p>
               <p>Operating Brand: <span className="text-gray-900">The Loot Bazaar</span></p>
-              <p>Email: <a href="mailto:info@thelootbazaar.com" className="hover:underline text-blue-600">info@thelootbazaar.com</a></p>
+              <p>Email: <a href="mailto:info@https://thelootbazaar.vercel.app/" className="hover:underline text-blue-600">info@https://thelootbazaar.vercel.app/</a></p>
             </div>
           </section>
 
