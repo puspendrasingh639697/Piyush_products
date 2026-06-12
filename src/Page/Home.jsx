@@ -38,6 +38,7 @@ import MyOurTeam from "../About/MyOurTeam";
 import TeamMembers from "../About/TeamMembers";
 import In_The_Spotlite from "../Home/In_The_Spotlite";
 import PartnerTheShin from "../Home/PartnerTheShin";
+import PortfolioCard from "../Component/PortfolioCard";
 
 const Home = ({ card, setCard }) => {
   return (
@@ -46,6 +47,7 @@ const Home = ({ card, setCard }) => {
       <This_Season />
       <Our_Product card={card} setCard={setCard} />
       <MyOurTeam />
+      <PortfolioCard/>
       <Get_Glowing />
       <TeamMembers />
     </div>

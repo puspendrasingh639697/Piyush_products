@@ -1786,7 +1786,7 @@ import { Link, useNavigate, useLocation } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { useTranslation } from "react-i18next";
 import NotificationBell from './NotificationBell';
-import logo from "../assets/Images/LogoShoping1.jpeg";
+import logo from "../assets/Images/LogoShoping2.png";
 import {
   RiShoppingBasketFill, RiSearchLine, RiCloseLine, RiMenu3Line,
   RiUserLine, RiHeartLine, RiAccountCircleLine, RiLogoutBoxRLine,
@@ -2003,7 +2003,7 @@ const Navbar = ({ card = [], cartCount = 0 }) => {
               <img
                 src={logo}
                 alt="logo"
-                className="h-10 sm:h-12 md:h-14 w-auto object-contain transition-transform duration-300 hover:scale-105"
+                className="h-14 sm:h-12 md:h-14 w-auto object-contain transition-transform duration-300 hover:scale-105"
               />
             </Link>
           </div>
@@ -2017,7 +2017,7 @@ const Navbar = ({ card = [], cartCount = 0 }) => {
                   onChange={handleSearchChange}
                   onFocus={() => searchQuery.trim().length >= 2 && setShowSuggestions(true)}
                   placeholder={t('common.search')}
-                  className="w-full bg-gray-50 px-4 py-1.5 rounded-full outline-none shadow-sm text-sm border border-gray-200 focus:border-[#8B1E2D] focus:ring-2 focus:ring-[#8B1E2D]/20 transition-all"
+                  className="w-full bg-gray-50 px-6 py-2 rounded-full outline-none shadow-sm text-sm border border-gray-200 focus:border-[#8B1E2D] focus:ring-2 focus:ring-[#8B1E2D]/20 transition-all"
                 />
                 <button type="submit" className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-[#8B1E2D] transition">
                   <RiSearchLine className="text-lg" />
@@ -2067,16 +2067,16 @@ const Navbar = ({ card = [], cartCount = 0 }) => {
             <div className="hidden sm:block"><NotificationBell /></div>
 
             <button onClick={() => setShowFilters(!showFilters)} className="hidden lg:flex flex-col items-center group relative">
-              <RiFilterLine className="text-xl text-gray-700 group-hover:text-[#8B1E2D] transition-colors" />
-              <span className="text-[9px] text-gray-500 mt-0.5">Filter</span>
+              <RiFilterLine className="text-2xl text-black group-hover:text-[#8B1E2D] transition-colors" />
+              <span className="text-[14px] text-black mt-0.5">Filter</span>
               {(selectedCategory || sortBy) && (
                 <span className="absolute -top-1 -right-1 w-2 h-2 bg-[#8B1E2D] rounded-full"></span>
               )}
             </button>
 
             <button onClick={() => navigate('/wishlist')} className="flex flex-col items-center group">
-              <RiHeartLine className="text-xl text-gray-700 group-hover:text-[#8B1E2D] transition-colors" />
-              <span className="hidden sm:block text-[9px] text-gray-500 mt-0.5">Wishlist</span>
+              <RiHeartLine className="text-2xl text-gray-700 group-hover:text-[#8B1E2D] transition-colors" />
+              <span className="hidden sm:block text-[13px] text-black mt-0.5">Wishlist</span>
             </button>
 
             <div className="flex flex-col items-center group">
@@ -2089,18 +2089,18 @@ const Navbar = ({ card = [], cartCount = 0 }) => {
                 </div>
               ) : (
                 <button onClick={() => setShowAuthModal(true)} className="flex flex-col items-center group">
-                  <RiUserLine className="text-xl text-gray-700 group-hover:text-[#8B1E2D] transition-colors" />
-                  <span className="hidden sm:block text-[9px] text-gray-500 mt-0.5 uppercase font-medium">Sign In</span>
+                  <RiUserLine className="text-2xl text-gray-700 group-hover:text-[#8B1E2D] transition-colors" />
+                  <span className="hidden sm:block text-[14px] text-black mt-0.5 uppercase font-medium">Sign In</span>
                 </button>
               )}
             </div>
 
             <button onClick={() => navigate('/cart')} className="relative flex flex-col items-center group">
-              <RiShoppingBasketFill className="text-xl text-gray-700 group-hover:text-[#8B1E2D] transition-colors" />
+              <RiShoppingBasketFill className="text-2xl text-gray-700 group-hover:text-[#8B1E2D] transition-colors" />
               <span className="absolute -top-2 -right-2 bg-[#8B1E2D] text-white text-[9px] font-bold rounded-full w-4 h-4 flex items-center justify-center shadow-sm">
                 {cartCount > 9 ? '9+' : cartCount}
               </span>
-              <span className="hidden sm:block text-[9px] text-gray-500 mt-0.5">{t('nav.cart')}</span>
+              <span className="hidden sm:block text-[14px] text-black mt-0.5">{t('nav.cart')}</span>
             </button>
           </div>
         </div>
