@@ -1980,8 +1980,8 @@ const Navbar = ({ card = [], cartCount = 0 }) => {
     { name: t('nav.cookware'), path: "/products?category=cookware", hasDropdown: true, categoryKey: "cookware" },
     { name: t('nav.serveware'), path: "/products?category=serveware", hasDropdown: true, categoryKey: "serveware" },
     { name: t('nav.essentials'), path: "/products?category=essentials", hasDropdown: true, categoryKey: "essentials" },
-    { name: t('nav.deals'), path: "/deals", hasDropdown: false },
-    { name: t('nav.gifting'), path: "/gifting", hasDropdown: false },
+    { name: t('nav.deals'), path: "/", hasDropdown: false },
+    { name: t('nav.gifting'), path: "/", hasDropdown: false },
   ];
 
   return (

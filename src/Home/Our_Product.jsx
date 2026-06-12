@@ -239,12 +239,12 @@ const Our_Product = ({ onCartUpdate }) => {
               transition={{ duration: 0.3 }}
               className="max-w-[1400px] mx-auto px-6 mb-8"
             >
-              <div className="bg-white rounded-2xl shadow-lg p-6 border border-gray-100">
+              <div className="bg-[#8B1E2D] rounded-2xl shadow-lg p-6 border border-gray-100">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                   {/* Categories Section */}
                   <div>
-                    <h3 className="font-semibold text-gray-800 mb-4 flex items-center gap-2">
-                      <FaTags className="text-[#8B1E2D]" size={16} />
+                    <h3 className="font-semibold text-white mb-4 flex items-center gap-2">
+                      <FaTags className="text-white" size={16} />
                       Shop by Category
                     </h3>
                     <div className="flex flex-wrap gap-2">
@@ -266,7 +266,7 @@ const Our_Product = ({ onCartUpdate }) => {
                   
                   {/* Sort Section */}
                   <div>
-                    <h3 className="font-semibold text-gray-800 mb-4 flex items-center gap-2">
+                    <h3 className="font-semibold text-white mb-4 flex items-center gap-2">
                       Sort By
                     </h3>
                     <div className="flex flex-wrap gap-2">

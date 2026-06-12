@@ -406,8 +406,8 @@ const AppContent = () => {
         <Route path='/category/:categoryId' element={<CategoryPage card={card} setCard={setCard} />} />
         
         {/* ✅ Deals & Gifting Routes */}
-        <Route path='/deals' element={<Deals />} />
-        <Route path='/gifting' element={<Gifting />} />
+        <Route path='/' element={<Deals />} />
+        <Route path='/' element={<Gifting />} />
 
         {/* User Account Routes */}
         <Route path='/myaccount' element={<MyAccount />} />
