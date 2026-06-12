@@ -499,7 +499,8 @@ import {
 } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
 
-import logo from "../../assets/Images/LogoShoping.png";
+import logo from "../../assets/Images/LogoShoping1.jpeg";
+
 
 const Footer = () => {
   const navigate = useNavigate();
